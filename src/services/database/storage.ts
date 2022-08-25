@@ -7,16 +7,23 @@ export const str = {
       async add(image: string) {
         return storage.uploadString(ref, image, 'data_url');
       },
-      async get() {
-        const images: { path: string; url: string }[] = [];
-        storage.listAll(ref).then((res) => {
-          res.items.forEach((item) => {
-            storage.getDownloadURL(item).then((url) => {
-              images.push({ path: item.fullPath, url });
+      async get(callback?: (data: { url: string; path: string }) => void) {
+        return storage.listAll(ref).then((res) => {
+          return res.items.map(async (item) => {
+            return storage.getBlob(item).then((blob) => {
+              const reader = new FileReader();
+              reader.readAsDataURL(blob);
+              reader.onloadend = () => {
+                const base64data = reader.result;
+                return (
+                  callback &&
+                  callback({ url: base64data as string, path: item.fullPath })
+                );
+              };
+              return reader.result;
             });
           });
         });
-        return images;
       },
     };
   },

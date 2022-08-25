@@ -3,8 +3,9 @@ import {
   getStorage,
   ref,
   uploadString,
-  listAll,
   getDownloadURL,
+  listAll,
+  getBlob,
 } from 'firebase/storage';
 import {
   getAuth,
@@ -32,6 +33,7 @@ export const storage = {
   storage: getStorage(),
   getDownloadURL,
   uploadString,
+  getBlob,
   listAll,
   ref,
 };

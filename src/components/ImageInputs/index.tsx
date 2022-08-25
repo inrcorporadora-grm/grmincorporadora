@@ -25,7 +25,9 @@ export const ImageInputs = <
   disabled,
   onPrepareFile,
 }: ImageInputsProps<T>) => {
-  const [files, setFiles] = useState<any>(value.url ? [value.url] : []);
+  const [files, setFiles] = useState<any>(
+    value.url ? [{ source: value.url }] : [],
+  );
 
   return (
     <>
@@ -49,7 +51,10 @@ export const ImageInputs = <
           maxFileSize="5mb"
           acceptedFileTypes={['jpg', 'png', 'webp']}
           allowImagePreview
-          labelIdle='Arraste e Solte ou <span class="filepond--label-action">navegue</span>'
+          labelIdle='Arraste e Solte ou <span class="filepond--label-action">navegue</span'
+          server={{
+            load: 'https://picsum.photos/200/300',
+          }}
         />
       </div>
       <Input
