@@ -1,5 +1,6 @@
 import type { iProject } from 'types/iProject';
 import Image from 'next/image';
+import { imageMock } from '@utils/imageMock';
 
 import { TitleCSS } from '@stylesComponents/Texts';
 import { ContainerCSS } from './styles';
@@ -34,7 +35,7 @@ export const Card = ({ image, name, children, size, ...rest }: CardProps) => {
       <div className="card__background">
         <div className="overlay" />
         <Image
-          src={image.url}
+          src={image.url || (imageMock.url as string)}
           alt={image.alt}
           draggable={false}
           layout="fill"
