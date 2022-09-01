@@ -8,7 +8,7 @@ import { TitleCSS } from '@stylesComponents/Texts';
 
 const Land = () => {
   const { data: pageProps, isValidating: pagePropsLoading } =
-    fetcherSWR.useGet<iPage>('/api/pages/enterprises');
+    fetcherSWR.useGet<iPage>('/api/pages/land');
 
   return (
     <Main slides={pageProps?.slides} isLoading={pagePropsLoading}>

@@ -10,7 +10,7 @@ const Home = () => {
   const { data: projects, isValidating: projectsLoading } =
     fetcherSWR.useGet<iProject[]>('/api/projects');
   const { data: pageProps, isValidating: pagePropsLoading } =
-    fetcherSWR.useGet<iPage>('/api/pages/enterprises');
+    fetcherSWR.useGet<iPage>('/api/pages/home');
 
   return (
     <Main

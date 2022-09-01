@@ -6,7 +6,7 @@ import { ParagraphCSS, SubTitleCSS } from '@stylesComponents/Texts';
 
 const About = () => {
   const { data: pageProps, isValidating: pagePropsLoading } =
-    fetcherSWR.useGet<iPage>('/api/pages/enterprises');
+    fetcherSWR.useGet<iPage>('/api/pages/about');
 
   return (
     <Main slides={pageProps?.slides} isLoading={pagePropsLoading}>
