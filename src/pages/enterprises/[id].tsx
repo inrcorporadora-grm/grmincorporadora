@@ -3,7 +3,6 @@ import type { iProject } from 'types/iProject';
 
 import { useState, useEffect } from 'react';
 import { fetcher, fetcherSWR } from '@services/fetchers';
-import { useGetProject } from '@hooks/useGetProject';
 
 import { Main } from '@components/Main';
 import { AnotherEnterprises } from '@components/Main/Sections/AnotherEnterprises';
@@ -18,17 +17,13 @@ interface ProjectProps {
 }
 
 const Project = ({ projectId }: ProjectProps) => {
-  const { data: projectsDb, isValidating } =
-    fetcherSWR.useGet<iProject[]>('/api/projects');
+  const { data: project, isValidating: projectLoading } =
+    fetcherSWR.useGet<iProject>(`/api/projects/${projectId}`);
+  const { data: projects, isValidating: projectsLoading } =
+    fetcherSWR.useGet<iProject[]>(`/api/projects`);
 
-  const [projects, , loadingProject] = useGetProject(projectsDb || undefined);
-
-  const [project, setProject] = useState<iProject | undefined>(undefined);
   const [page, setPage] = useState('in-progress');
 
-  useEffect(() => {
-    setProject(projects?.filter(({ id }) => id === projectId)[0]);
-  }, [projects, projectId]);
   useEffect(() => {
     setPage(project?.status === 'new' ? 'in-progress' : 'deliveries');
   }, [project]);
@@ -37,7 +32,7 @@ const Project = ({ projectId }: ProjectProps) => {
     <Main
       projects={projects}
       slides={project?.image}
-      isLoading={isValidating || loadingProject}
+      isLoading={projectLoading || projectsLoading}
       blockEdit
     >
       <section className="project">
@@ -82,9 +77,9 @@ const Project = ({ projectId }: ProjectProps) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const projectsIds: string[] | null = await fetcher
+  const projectsIds = await fetcher
     .get('/api/projects/ids')
-    .then((r) => r)
+    .then((r) => r as string[])
     .catch(() => null);
 
   const paths =
@@ -97,6 +92,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const projectId = params?.id;
+  await fetcher.get(`/api/projects/${projectId}`);
 
   return {
     props: {

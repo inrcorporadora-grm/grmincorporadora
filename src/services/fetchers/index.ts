@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import useSWR from 'swr';
 
 const instanceAxios = axios.create({
@@ -6,8 +6,8 @@ const instanceAxios = axios.create({
 });
 
 export const fetcher = {
-  get: async (url: string) => {
-    return instanceAxios.get(url).then((res) => res.data);
+  get: async <T>(url: string, options?: AxiosRequestConfig<any>) => {
+    return instanceAxios.get<T>(url, options).then((res) => res.data);
   },
   post: async (url: string, data: any) => {
     return instanceAxios.post(url, data).then((res) => res.data);
@@ -22,7 +22,7 @@ export const fetcher = {
 
 export const fetcherSWR = {
   useGet: <T>(url: string) =>
-    useSWR<T>(url, fetcher.get, {
+    useSWR<T>(url, (urlFetch, options) => fetcher.get<T>(urlFetch, options), {
       revalidateOnFocus: false,
     }),
 };

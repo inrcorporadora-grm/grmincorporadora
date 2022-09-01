@@ -1,60 +1,26 @@
 import type { iProject } from 'types/iProject';
 import type { iPage } from 'types/iPage';
-import type {
-  GetServerSidePropsContext,
-  InferGetServerSidePropsType,
-} from 'next';
 
-import { fetcher, fetcherSWR } from '@services/fetchers';
-import { useGetSlides } from '@hooks/useGetSlides';
-import { useGetProject } from '@hooks/useGetProject';
+import { fetcherSWR } from '@services/fetchers';
 
 import { Main } from '@components/Main';
 import { Cards } from '@components/Main/Sections/Cards';
 
 import { AnotherEnterprises } from '@components/Main/Sections/AnotherEnterprises';
 
-export const getServerSideProps = async ({
-  res,
-}: GetServerSidePropsContext) => {
-  const maxAge = 60 * 5; // 5 minutes
-  const staleWhileRevalidate = 60 * 2; // 2 minutes
-  res.setHeader(
-    'Cache-Control',
-    `public, max-age=${maxAge}, stale-while-revalidate=${staleWhileRevalidate}`,
-  );
-
-  const pageProps = await fetcher
-    .get('/api/pages/enterprises')
-    .then((data: iPage) => data)
-    .catch(() => null);
-
-  return {
-    props: {
-      pageProps,
-    },
-  };
-};
-
-const Enterprises = ({
-  pageProps,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const { data: projectsDb, isValidating } =
+const Enterprises = () => {
+  const { data: projects, isValidating: projectsLoading } =
     fetcherSWR.useGet<iProject[]>('/api/projects');
-
-  const [projects, , loadingProject] = useGetProject(projectsDb || undefined);
-  const [slides, , loadingSlides] = useGetSlides(
-    pageProps || undefined,
-    'enterprises',
-  );
+  const { data: pageProps, isValidating: pagePropsLoading } =
+    fetcherSWR.useGet<iPage>('/api/pages/enterprises');
 
   return (
     <Main
-      slides={slides}
+      slides={pageProps?.slides}
       projects={projects}
-      isLoading={isValidating || loadingProject || loadingSlides}
+      isLoading={pagePropsLoading || projectsLoading}
     >
-      {projects && !loadingProject && (
+      {projects && (
         <>
           <Cards projects={projects} />
           <AnotherEnterprises projects={projects} />

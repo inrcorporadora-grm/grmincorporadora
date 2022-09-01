@@ -54,9 +54,12 @@ export const ContainerCSS = styled.div<ContainerCSSProps>`
 
   @media (max-width: ${({ theme }) => theme.mediaQueries.maxTablet}) {
     width: 100%;
-
-    > .embla__container > .embla__slide {
-      flex: 0 0 100%;
+    > .embla__viewport {
+      > .embla__container {
+        > .embla__slide {
+          min-width: 100%;
+        }
+      }
     }
   }
 `;

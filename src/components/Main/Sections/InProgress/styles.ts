@@ -30,8 +30,11 @@ export const ContainerCSS = styled.section`
         height: 100%;
       }
 
-      @media (max-width: ${({ theme }) => theme.mediaQueries.maxMobile}) {
+      @media (max-width: 400px) {
         margin-left: 1rem;
+        width: 11rem;
+        height: calc(100% - 5rem);
+        padding: 1rem;
       }
     }
   }

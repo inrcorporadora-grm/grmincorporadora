@@ -79,7 +79,7 @@ export const Carousel = ({
 
   return (
     <ContainerCSS
-      className="embla"
+      className="embla mx-w"
       showHiddenSlides={showHiddenSlides}
       tabIndex={0}
       aria-roledescription="slides"

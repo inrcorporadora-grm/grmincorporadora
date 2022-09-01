@@ -5,7 +5,6 @@ import { useState } from 'react';
 import { cookie } from '@services/cookies';
 import { fetcherSWR } from '@services/fetchers';
 import { useAuthContext } from '@contexts/Auth/useAuthContext';
-import { useGetProject } from '@hooks/useGetProject';
 
 import { Main } from '@components/Main';
 import { Button } from '@components/Buttons/Button';
@@ -19,14 +18,11 @@ const Dashboard = () => {
   const { data: projectsDb, isValidating } =
     fetcherSWR.useGet<iProject[]>('/api/projects');
 
-  const [projects, setProjects, loadingProject] = useGetProject(
-    projectsDb || undefined,
-  );
-
+  const [projects, setProjects] = useState(projectsDb);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   return (
-    <Main isLoading={isValidating || loadingProject}>
+    <Main isLoading={isValidating}>
       <section className="dashboard">
         <div>
           <ParagraphCSS>você está logado como: {user?.email}</ParagraphCSS>

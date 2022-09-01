@@ -1,5 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { db } from '@services/database';
+import { iProject } from 'types/iProject';
+import { getProjectImages } from '@utils/getProjectImages';
 
 export default async function handle(
   req: NextApiRequest,
@@ -16,9 +18,15 @@ export default async function handle(
     if (req.method === 'DELETE') {
       return await db.in('projects').del(id);
     }
+    if (req.method === 'GET') {
+      const data = (await db.in('projects').get(id)) as iProject;
+      const projectWithImages = data && (await getProjectImages(data));
+
+      return res.status(200).json(projectWithImages);
+    }
 
     return res.status(404).json({ message: 'Not found' });
   } catch (e) {
-    return res.status(400).end();
+    return res.status(400).send(e);
   }
 }

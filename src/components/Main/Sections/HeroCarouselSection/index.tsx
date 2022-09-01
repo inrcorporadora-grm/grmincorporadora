@@ -92,9 +92,9 @@ export const HeroCarouselSection = ({
               <HeroCarouselBackground>
                 <Image
                   src={
-                    slide.is === 'project'
+                    (slide.is === 'project'
                       ? (slide.image.url as string)
-                      : slide.url || (imageMock.url as string)
+                      : slide.url) || (imageMock.url as string)
                   }
                   alt={slide.is === 'project' ? slide.image.alt : slide.alt}
                   draggable={false}
