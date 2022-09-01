@@ -92,7 +92,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const projectId = params?.id;
-  await fetcher.get(`/api/projects/${projectId}`);
 
   return {
     props: {
