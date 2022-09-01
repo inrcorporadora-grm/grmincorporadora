@@ -13,7 +13,9 @@ export default async function handle(
     if (req.method === 'PUT') {
       const projectSubmit = req.body;
       const data = await db.in('projects').put(id, projectSubmit);
-      return res.status(200).json({ ...data });
+      const projectWithImages = data && (await getProjectImages(data));
+
+      return res.status(200).json(projectWithImages);
     }
     if (req.method === 'DELETE') {
       return await db.in('projects').del(id);

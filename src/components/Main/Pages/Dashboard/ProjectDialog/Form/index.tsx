@@ -9,7 +9,6 @@ import { messages } from '@utils/messages';
 import { FormBox } from '@components/FormBox';
 
 import { str } from '@services/database/storage';
-import { getImages } from '@utils/getImages';
 import { DialogActions } from '../DialogActions';
 import { PrincipalInfosSection } from './PrincipalInfosSection';
 import { ToggleInputsSection } from './ToggleInputsSection';
@@ -109,14 +108,13 @@ export const Form = <T extends iTableProject | undefined>({
                 const newRows = [...prev!];
                 const index = newRows.findIndex((row) => row.id === res.id);
                 newRows[index] = {
-                  ...(getImages(`projects/${res.id}`, res) as iProject),
+                  ...res,
                   tableName: res.name.name,
                 };
                 return newRows;
               }
-              const resWithImages = getImages(`projects/${res.id}`, res);
 
-              return [...prev!, resWithImages] as any;
+              return [...prev!, res] as any;
             });
 
             alert(`Processo: ${title}. Foi realizado com sucesso.`);
