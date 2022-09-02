@@ -14,7 +14,7 @@ interface ImageInputsProps<T> {
   label: string;
   disabled?: boolean;
   onPrepareFile: T;
-  onRemoveFile: () => void;
+  onRemoveFile?: () => void;
 }
 
 export const ImageInputs = <
