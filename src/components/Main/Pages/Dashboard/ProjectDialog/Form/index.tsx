@@ -9,6 +9,7 @@ import { messages } from '@utils/messages';
 import { FormBox } from '@components/FormBox';
 
 import { str } from '@services/database/storage';
+import { getProjectImages } from '@utils/getProjectImages';
 import { DialogActions } from '../DialogActions';
 import { PrincipalInfosSection } from './PrincipalInfosSection';
 import { ToggleInputsSection } from './ToggleInputsSection';
@@ -58,6 +59,7 @@ export const Form = <T extends iTableProject | undefined>({
   );
 
   const [infos, setInfos] = useState<iTableProject['infos']>([]);
+  const [deletedImagesIds, setDeletedImagesIds] = useState<string[]>([]);
   const [gallery, setGallery] = useState<iTableProject['gallery']>([]);
   const [plans, setPlans] = useState<iTableProject['plans']>([]);
   const [dataSheets, setDataSheets] = useState<iTableProject['dataSheets']>([]);
@@ -90,35 +92,52 @@ export const Form = <T extends iTableProject | undefined>({
         );
 
         submit(projectSubmit, type)
-          .then((res) => {
-            Object.entries(imagesSubmit).forEach(([, value]) => {
-              if (Array.isArray(value)) {
-                value.forEach((img) => {
-                  str.in(img?.path(res.id)).add(img?.img as string);
-                });
-              } else {
-                str.in(value?.path(res.id) as string).add(value?.img as string);
-              }
-            });
+          .then(async (res) => {
+            if (deletedImagesIds.length) {
+              await Promise.all(
+                deletedImagesIds.map(async (imageToDelete) => {
+                  // if the image exists in the project remove then
+                  if (JSON.stringify(res).includes(imageToDelete)) {
+                    await str.in(`projects/${res.id}/${imageToDelete}`).del();
+                  }
+                  return imageToDelete;
+                }),
+              );
+            }
+            await Promise.all(
+              Object.entries(imagesSubmit).map(async ([, value]) => {
+                if (Array.isArray(value)) {
+                  await Promise.all(
+                    value.map(async (img) => {
+                      await str.in(img?.path(res.id)).add(img?.img as string);
+                      return img;
+                    }),
+                  );
+                } else {
+                  await str
+                    .in(value?.path(res.id) as string)
+                    .add(value?.img as string);
+                }
+              }),
+            );
             return res;
           })
-          .then((res) => {
-            setProjects((prev) => {
-              if (type === 'edit') {
-                const newRows = [...prev!];
-                const index = newRows.findIndex((row) => row.id === res.id);
-                newRows[index] = {
-                  ...res,
-                  tableName: res.name.name,
-                };
-                return newRows;
-              }
+          .then(async (res) => {
+            await getProjectImages(res).then((projectRes) => {
+              setProjects((prev) => {
+                if (type === 'edit') {
+                  const newRows = [...prev!];
+                  const index = newRows.findIndex((row) => row.id === res.id);
+                  newRows[index] = { ...projectRes, tableName: res.name.name };
+                  return newRows;
+                }
 
-              return [...prev!, res] as any;
+                const newProject = { ...projectRes, tableName: res.name.name };
+                return [...prev!, newProject] as any;
+              });
+              alert(`Processo: ${title}. Foi realizado com sucesso.`);
+              setOpen(false);
             });
-
-            alert(`Processo: ${title}. Foi realizado com sucesso.`);
-            setOpen(false);
             return res;
           })
           .catch(() => alert(messages.error.err));
@@ -165,24 +184,48 @@ export const Form = <T extends iTableProject | undefined>({
         title="Plantas"
         setListProp={setPlans}
         tableListItem={project?.plans}
+        onItemDelete={(id) =>
+          setDeletedImagesIds((prev) => [...prev, `plans/${id}`])
+        }
         inputsShowed={(inputsShowedProps) => (
-          <ImageInputs {...inputsShowedProps} />
+          <ImageInputs
+            {...inputsShowedProps}
+            itemRemoved={(id) =>
+              setDeletedImagesIds((prev) => [...prev, `plans/${id}`])
+            }
+          />
         )}
       />
       <ToggleInputsSection
         title="Ilustrações"
         setListProp={setIllustrative}
         tableListItem={project?.illustrative}
+        onItemDelete={(id) =>
+          setDeletedImagesIds((prev) => [...prev, `plans/${id}`])
+        }
         inputsShowed={(inputsShowedProps) => (
-          <ImageInputs {...inputsShowedProps} />
+          <ImageInputs
+            {...inputsShowedProps}
+            itemRemoved={(id) =>
+              setDeletedImagesIds((prev) => [...prev, `illustrative/${id}`])
+            }
+          />
         )}
       />
       <ToggleInputsSection
         title="Galeria"
         setListProp={setGallery}
         tableListItem={project?.gallery}
+        onItemDelete={(id) =>
+          setDeletedImagesIds((prev) => [...prev, `plans/${id}`])
+        }
         inputsShowed={(inputsShowedProps) => (
-          <ImageInputs {...inputsShowedProps} />
+          <ImageInputs
+            {...inputsShowedProps}
+            itemRemoved={(id) =>
+              setDeletedImagesIds((prev) => [...prev, `gallery/${id}`])
+            }
+          />
         )}
       />
       <DialogActions

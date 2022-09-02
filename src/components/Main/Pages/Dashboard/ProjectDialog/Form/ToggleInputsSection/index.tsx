@@ -19,6 +19,7 @@ type getTypeT<T> = T extends any[] ? T[number] : T;
 
 interface ToggleInputsSectionProps<T extends TableProjectArrayProps> {
   tableListItem: T | undefined;
+  onItemDelete?: (id: string) => void;
   inputsShowed: (
     props: {
       i: number;
@@ -35,6 +36,7 @@ export const ToggleInputsSection = <T extends TableProjectArrayProps>({
   tableListItem,
   inputsShowed,
   setListProp,
+  onItemDelete,
   title,
   max,
   min,
@@ -49,6 +51,7 @@ export const ToggleInputsSection = <T extends TableProjectArrayProps>({
   function delListItem(i: number) {
     setList((prev) => {
       const newLinks = [...prev];
+      if (onItemDelete) onItemDelete(newLinks[i].id);
       newLinks.splice(i, 1);
       return newLinks;
     });

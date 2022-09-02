@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { cookie } from '@services/cookies';
 import { fetcherSWR } from '@services/fetchers';
 import { useAuthContext } from '@contexts/Auth/useAuthContext';
+import { useGetProjectImage } from '@hooks/useGetProjectImage';
 
 import { Main } from '@components/Main';
 import { Button } from '@components/Buttons/Button';
@@ -15,14 +16,14 @@ import { ParagraphCSS } from '@stylesComponents/Texts';
 const Dashboard = () => {
   const { user } = useAuthContext();
 
-  const { data: projectsDb, isValidating } =
-    fetcherSWR.useGet<iProject[]>('/api/projects');
+  const { data: projectsDb } = fetcherSWR.useGet<iProject[]>('/api/projects');
+  const [projects, projectsLoading, setProjects] =
+    useGetProjectImage(projectsDb);
 
-  const [projects, setProjects] = useState(projectsDb);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   return (
-    <Main isLoading={isValidating}>
+    <Main isLoading={projectsLoading}>
       <section className="dashboard">
         <div>
           <ParagraphCSS>você está logado como: {user?.email}</ParagraphCSS>

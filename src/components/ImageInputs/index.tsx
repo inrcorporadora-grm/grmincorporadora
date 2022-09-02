@@ -14,6 +14,7 @@ interface ImageInputsProps<T> {
   label: string;
   disabled?: boolean;
   onPrepareFile: T;
+  onRemoveFile: () => void;
 }
 
 export const ImageInputs = <
@@ -24,6 +25,7 @@ export const ImageInputs = <
   value,
   disabled,
   onPrepareFile,
+  onRemoveFile,
 }: ImageInputsProps<T>) => {
   const [files, setFiles] = useState<any>(
     value.url ? [{ source: value.url }] : [],
@@ -39,6 +41,7 @@ export const ImageInputs = <
           credits={false}
           allowFileEncode
           disabled={disabled}
+          onremovefile={onRemoveFile}
           onpreparefile={(item) => {
             if (onPrepareFile) onPrepareFile(item);
             else

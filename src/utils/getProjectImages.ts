@@ -63,5 +63,5 @@ export async function getProjectImages(project: iProject) {
     plans,
     gallery,
     illustrative,
-  };
+  } as iProject;
 }

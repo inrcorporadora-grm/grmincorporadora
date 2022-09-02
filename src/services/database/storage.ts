@@ -18,6 +18,9 @@ export const str = {
           });
         });
       },
+      async del() {
+        return storage.deleteObject(ref);
+      },
     };
   },
   async download(item: StorageReference) {

@@ -3,6 +3,7 @@ import type { iProject } from 'types/iProject';
 
 import { useState, useEffect } from 'react';
 import { fetcher, fetcherSWR } from '@services/fetchers';
+import { useGetProjectImage } from '@hooks/useGetProjectImage';
 
 import { Main } from '@components/Main';
 import { AnotherEnterprises } from '@components/Main/Sections/AnotherEnterprises';
@@ -17,11 +18,13 @@ interface ProjectProps {
 }
 
 const Project = ({ projectId }: ProjectProps) => {
-  const { data: project, isValidating: projectLoading } =
-    fetcherSWR.useGet<iProject>(`/api/projects/${projectId}`);
+  const { data: projectDb } = fetcherSWR.useGet<iProject>(
+    `/api/projects/${projectId}`,
+  );
   const { data: projects, isValidating: projectsLoading } =
     fetcherSWR.useGet<iProject[]>(`/api/projects`);
 
+  const [project, projectLoading] = useGetProjectImage(projectDb);
   const [page, setPage] = useState('in-progress');
 
   useEffect(() => {

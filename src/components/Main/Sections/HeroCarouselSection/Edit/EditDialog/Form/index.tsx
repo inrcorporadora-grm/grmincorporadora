@@ -60,13 +60,13 @@ export const Form = ({
                 id: slidesToSubmit[0].id,
               } as iImage);
 
-        if (!Array.isArray(toSubmit)) {
-          str
-            .in(`pages/${pageVerify}/${pageVerify}`)
-            .add((slidesToSubmit[0] as iImage).url as string);
-        }
         submit(toSubmit, pageVerify)
-          .then((res) => {
+          .then(async (res) => {
+            if (!Array.isArray(toSubmit)) {
+              await str
+                .in(`pages/${pageVerify}/${pageVerify}`)
+                .add((slidesToSubmit[0] as iImage).url as string);
+            }
             setSlides(slidesToSubmit);
             alert(`Slide(s) atualizado(s) com sucesso.`);
             setOpen(false);
