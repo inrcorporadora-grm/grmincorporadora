@@ -16,7 +16,7 @@ interface GalleryProps {
 
 export const Gallery = ({ images, title }: GalleryProps) => {
   return (
-    <section>
+    <section className="gallery-images">
       <SubTitleCSS>{title}</SubTitleCSS>
 
       <Carousel
@@ -39,6 +39,7 @@ export const Gallery = ({ images, title }: GalleryProps) => {
                 objectFit="cover"
                 priority
               />
+              <span className="alt-image">{image.alt}</span>
             </CarouselBackground>
           </CarouselItem>
         ))}

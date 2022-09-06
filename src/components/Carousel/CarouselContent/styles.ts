@@ -7,6 +7,7 @@ export const ContainerCSS = styled.div`
   justify-content: center;
 
   left: 0;
+  height: 100%;
   z-index: 2;
 
   color: rgb(var(--color-text100));

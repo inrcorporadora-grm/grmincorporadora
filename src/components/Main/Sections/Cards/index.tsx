@@ -19,7 +19,7 @@ const DEFAULT_PAGE = 'in-progress';
 
 export const Cards = ({ projects }: CardsProps) => {
   const router = useRouter();
-  const [amountCards, setAmountCards] = useState(3);
+  const [amountCards, setAmountCards] = useState(6);
 
   const [page, setPage] = useState<PageQuery>(
     (router.query.page as PageQuery) || DEFAULT_PAGE,

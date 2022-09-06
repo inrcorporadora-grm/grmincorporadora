@@ -1,6 +1,6 @@
 import { Anchor } from '@components/Anchor';
 import {
-  FacebookIcon,
+  // FacebookIcon,
   InstagramIcon,
   LinkedInIcon,
 } from '@stylesComponents/icons/Medias';
@@ -11,13 +11,19 @@ export const Medias = () => {
   return (
     <ContainerCSS>
       <span>redes sociais</span>
-      <Anchor href="https://instagram.com/" ariaLabel="LinkedIn">
+      <Anchor
+        href="https://www.instagram.com/grm_incorporadora/"
+        ariaLabel="LinkedIn"
+      >
         <LinkedInIcon />
       </Anchor>
-      <Anchor href="https://facebook.com/" ariaLabel="Facebook">
+      {/* <Anchor href="https://facebook.com/" ariaLabel="Facebook">
         <FacebookIcon />
-      </Anchor>
-      <Anchor href="https://br.linkedin.com/" ariaLabel="Instagram">
+      </Anchor> */}
+      <Anchor
+        href="https://www.linkedin.com/company/grm-incorporadora/?viewAsMember=true"
+        ariaLabel="Instagram"
+      >
         <InstagramIcon />
       </Anchor>
     </ContainerCSS>

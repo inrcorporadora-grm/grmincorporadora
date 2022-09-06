@@ -5,4 +5,5 @@ export interface iImage {
   is: 'image' | 'image-mock';
   url?: string | StaticImageData;
   alt: string;
+  slideText?: string;
 }

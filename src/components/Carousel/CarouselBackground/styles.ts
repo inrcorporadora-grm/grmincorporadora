@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { altImageCSS } from '../styles';
 
 export const ContainerCSS = styled.div`
   position: relative;
@@ -6,4 +7,6 @@ export const ContainerCSS = styled.div`
 
   width: 100%;
   height: 28rem;
+
+  ${altImageCSS}
 `;

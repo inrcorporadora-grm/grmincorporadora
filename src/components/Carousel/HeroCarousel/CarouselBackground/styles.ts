@@ -1,3 +1,4 @@
+import { altImageCSS } from '@components/Carousel/styles';
 import styled from 'styled-components';
 
 export const ContainerCSS = styled.div`
@@ -16,4 +17,6 @@ export const ContainerCSS = styled.div`
     z-index: 1;
     opacity: 0.4;
   }
+
+  ${altImageCSS}
 `;

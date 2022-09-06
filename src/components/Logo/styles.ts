@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 
 interface ContainerCSSProps {
-  variant?: 'colorized' | 'default';
+  variant: 'colorized' | 'default';
 }
 
 export const ContainerCSS = styled.div<ContainerCSSProps>`
@@ -9,7 +9,7 @@ export const ContainerCSS = styled.div<ContainerCSSProps>`
   width: 9rem;
 
   ${({ variant }) =>
-    variant === 'colorized' &&
+    variant === 'default' &&
     css`
       width: 11rem;
       filter: invert(1);

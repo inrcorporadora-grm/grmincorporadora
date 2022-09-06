@@ -11,7 +11,7 @@ import { makeRows } from './utils/makeRows';
 import { ContainerCSS } from './styles';
 
 interface ProjectTableProps {
-  slides: iProject[] | iImage[];
+  slides: (iProject | iImage)[];
   setSlides: React.Dispatch<React.SetStateAction<iProject[] | iImage[]>>;
   projects: iProject[];
 }
@@ -23,7 +23,7 @@ export const ProjectTable = ({
 }: ProjectTableProps) => {
   const [rows, setRows] = useState<iTableProject[]>(makeRows(projects));
   const [selectedIds, setSelectedIds] = useState<GridRowId[]>(
-    slides[0]?.is === 'project' ? slides.map((slide) => slide.id) : [],
+    slides[0]?.is === 'project' ? slides?.map((slide) => slide.id) : [],
   );
 
   useEffect(() => {
@@ -47,7 +47,9 @@ export const ProjectTable = ({
         rowsPerPageOptions={[9]}
         selectionModel={selectedIds}
         isRowSelectable={() => selectedIds.length <= 5}
-        onSelectionModelChange={(id) => setSelectedIds(id)}
+        onSelectionModelChange={(ids) =>
+          setSelectedIds(ids.filter((_, i) => i < 5))
+        }
         disableSelectionOnClick
       />
     </ContainerCSS>

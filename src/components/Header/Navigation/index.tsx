@@ -40,12 +40,13 @@ export const Navigation = ({ isOpen, setIsOpen }: NavigationProps) => {
           <Link onClick={() => closeNavigation()} href="/enterprises">
             empreendimentos
           </Link>
-          <Link onClick={() => closeNavigation()} href="/contact">
-            contato
-          </Link>
           <Link onClick={() => closeNavigation()} href="/land">
             ofereça seu terreno
           </Link>
+          <Link onClick={() => closeNavigation()} href="/contact">
+            contato
+          </Link>
+
           {isUserAdmin && (
             <Link onClick={() => closeNavigation()} href="/admin/dashboard">
               Dashboard

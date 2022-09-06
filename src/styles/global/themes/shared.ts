@@ -8,7 +8,7 @@ export const BREAKPOINTS = {
 };
 
 export const sharedTheme: iSharedThemeOptions = {
-  maxWidth: '52rem',
+  maxWidth: '55rem',
 
   header: {
     desktopHeight: '5rem',

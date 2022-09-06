@@ -18,7 +18,7 @@ export const Logo = ({ variant }: LogoProps) => {
     <ContainerCSS
       aria-hidden
       onClick={() => router.push(router.asPath)}
-      variant={variant}
+      variant={variant || 'default'}
     >
       {variant === 'colorized' ? (
         <Image src={ImageLogo} alt={alt} />

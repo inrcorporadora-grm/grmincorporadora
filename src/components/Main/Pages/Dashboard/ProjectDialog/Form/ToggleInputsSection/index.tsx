@@ -104,7 +104,7 @@ export const ToggleInputsSection = <T extends TableProjectArrayProps>({
         <ButtonTooltip
           label={`Adicionar item a ${title}`}
           onClick={() => addListItem()}
-          disabled={max ? list.length >= max : list.length >= 10}
+          disabled={max ? list.length >= max : list.length >= 30}
         >
           <AddIcon />
         </ButtonTooltip>

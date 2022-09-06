@@ -71,6 +71,19 @@ const RootCSS = createGlobalStyle`
     font-family: var(--font-primary);
   }
 
+  .ql-align-center {
+    text-align: center;
+  }
+  .ql-align-right {
+    text-align: right;
+  }
+  .ql-align-justify {
+    text-align: justify;
+  }
+  .ql-container {
+    font-size: 2rem !important;
+  }
+
   .mob-visible {
     display: none;
     @media (max-width: ${({ theme }) => theme.mediaQueries.maxMobile}) {

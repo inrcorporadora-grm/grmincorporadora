@@ -68,6 +68,7 @@ export const CarouselProjects = ({ projects }: CarouselProjectsProps) => {
                 Conheça Agora
               </Button>
             </CarouselContent>
+
             <CarouselBackground>
               <Image
                 src={projectInProgress.image.url || (imageMock.url as string)}
@@ -77,6 +78,7 @@ export const CarouselProjects = ({ projects }: CarouselProjectsProps) => {
                 objectFit="cover"
                 priority
               />
+              <span className="alt-image">{projectInProgress.image.alt}</span>
             </CarouselBackground>
           </CarouselItem>
         ))}

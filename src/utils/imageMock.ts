@@ -8,4 +8,5 @@ export const imageMock: iImage = {
   id: generateId(),
   url: ImageMock,
   is: 'image-mock',
+  slideText: '',
 };

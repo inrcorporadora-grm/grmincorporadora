@@ -1,8 +1,23 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 interface ContainerCSSProps {
   showHiddenSlides?: boolean;
 }
+
+export const altImageCSS = css`
+  .alt-image {
+    z-index: 999;
+    position: absolute;
+    text-align: center;
+
+    color: rgb(var(--color-text100));
+    background-color: rgba(var(--color-background900), 0.7);
+
+    width: 100%;
+    bottom: 0;
+    padding: 0.2rem 0;
+  }
+`;
 
 export const ContainerCSS = styled.div<ContainerCSSProps>`
   overflow: hidden;

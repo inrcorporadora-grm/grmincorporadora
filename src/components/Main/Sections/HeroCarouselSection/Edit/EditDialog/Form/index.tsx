@@ -1,6 +1,7 @@
 import type { iProject } from 'types/iProject';
 import type { iImage } from 'types/iImage';
 
+import dynamic from 'next/dynamic';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { generateId } from '@utils/generateId';
@@ -14,6 +15,19 @@ import { str } from '@services/database/storage';
 import { submit } from './utils/submit';
 import { ProjectTable } from './ProjectsTable';
 import { DialogActions } from '../DialogActions';
+
+const QuillNoSSRWrapper = dynamic(import('react-quill'), {
+  ssr: false,
+  loading: () => <p>Loading ...</p>,
+});
+
+const MODULES_R_TEXT = {
+  toolbar: [['bold', 'italic', 'underline', 'strike'], [{ align: [] }]],
+  clipboard: {
+    matchVisual: false,
+  },
+};
+const FORMAT_R_TEXT = ['bold', 'italic', 'underline', 'strike', 'align'];
 
 interface EditDialogProps {
   setOpen: (open: boolean) => void;
@@ -31,18 +45,15 @@ export const Form = ({
   projects,
 }: EditDialogProps) => {
   const { pathname } = useRouter();
+  const contrastImage: iImage = {
+    url: '',
+    alt: '',
+    is: 'image',
+    id: generateId(),
+    slideText: '',
+  };
   const [slidesToSubmit, setSlidesToSubmit] = useState<iProject[] | iImage[]>(
-    slides,
-  );
-  const [contrastImage] = useState<iImage>(
-    slidesToSubmit[0]?.is === 'image'
-      ? slidesToSubmit[0]
-      : {
-          url: '',
-          alt: '',
-          is: 'image',
-          id: generateId(),
-        },
+    slides[0].is === 'project' ? slides : [{ ...contrastImage, ...slides[0] }],
   );
 
   return (
@@ -56,6 +67,7 @@ export const Form = ({
             ? slidesToSubmit.map((slide) => slide.id)
             : ({
                 alt: slidesToSubmit[0].alt,
+                slideText: slidesToSubmit[0].slideText,
                 is: 'image',
                 id: slidesToSubmit[0].id,
               } as iImage);
@@ -88,10 +100,7 @@ export const Form = ({
             if (slidesToSubmit[0]?.is === 'image') {
               setSlidesToSubmit((prev: any) => {
                 const newImage = prev[0];
-                if (newImage.is === 'image-mock') {
-                  newImage[target.id as string] = target.value;
-                }
-
+                newImage[target.id as string] = target.value;
                 return [newImage];
               });
             }
@@ -99,19 +108,48 @@ export const Form = ({
         >
           <ImageInputs
             set={undefined}
-            value={contrastImage}
+            value={
+              slidesToSubmit[0].is === 'image'
+                ? slidesToSubmit[0]
+                : contrastImage
+            }
             label="Descrição da imagem"
             disabled={slidesToSubmit[0]?.is === 'project'}
             onPrepareFile={(item) => {
-              setSlidesToSubmit(() => {
-                const newImage = contrastImage;
+              setSlidesToSubmit((prev: any) => {
+                const newImage = prev[0];
                 newImage.url = item.getFileEncodeDataURL();
-
                 return [newImage];
               });
             }}
           />
         </div>
+        {(slidesToSubmit
+          ? slidesToSubmit[0]?.is !== 'project'
+          : slides[0]?.is !== 'project') && (
+          <div
+            style={{
+              height: '16rem',
+            }}
+          >
+            <QuillNoSSRWrapper
+              modules={MODULES_R_TEXT}
+              formats={FORMAT_R_TEXT}
+              placeholder="Escreva aqui o que irá aparecer no slide"
+              defaultValue={(slides[0] as iImage).slideText}
+              onChange={(ev) => {
+                setSlidesToSubmit((prev: any) => {
+                  const newImage = prev[0];
+                  newImage.slideText = ev;
+                  return [newImage];
+                });
+              }}
+              style={{
+                height: '12rem',
+              }}
+            />
+          </div>
+        )}
       </section>
       {projects && (
         <section>

@@ -1,7 +1,8 @@
 import type { iProject } from 'types/iProject';
 import type { iImage } from 'types/iImage';
-import { useEffect, useState } from 'react';
 
+import { useEffect, useState } from 'react';
+import parser from 'html-react-parser';
 import Image from 'next/image';
 import { imageMock } from '@utils/imageMock';
 
@@ -45,7 +46,7 @@ export const HeroCarouselSection = ({
         <HeroCarousel amountSlides={slides.length}>
           {slides.map((slide, i) => (
             <CarouselItem i={i + 1} amountSlides={slides.length} key={slide.id}>
-              {slide.is === 'project' && (
+              {slide.is === 'project' ? (
                 <CarouselContent className="mx-w">
                   <span
                     style={{
@@ -86,6 +87,12 @@ export const HeroCarouselSection = ({
                   <span style={{ textTransform: 'uppercase' }}>
                     {slide.address && `${slide.address} - `} {slide.locale}
                   </span>
+                </CarouselContent>
+              ) : (
+                <CarouselContent className="mx-w">
+                  <div style={{ fontSize: '2.5rem' }}>
+                    {slide.slideText ? parser(slide.slideText) : ''}
+                  </div>
                 </CarouselContent>
               )}
 
