@@ -29,8 +29,7 @@ export const Cards = ({ projects }: CardsProps) => {
   );
 
   const getLabel = useCallback(() => {
-    const currentLabel =
-      page === DEFAULT_PAGE ? 'breve lançamento' : 'entregue';
+    const currentLabel = page === DEFAULT_PAGE ? 'lançamento' : 'entregue';
     return currentLabel;
   }, [page]);
 
