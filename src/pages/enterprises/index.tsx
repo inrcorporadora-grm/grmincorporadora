@@ -22,7 +22,7 @@ const Enterprises = () => {
       projects={projects}
       isLoading={pagePropsLoading || projectsLoading}
     >
-      {projects && (
+      {projects && !projectsLoading && (
         <>
           <Cards projects={projects} />
           <AnotherEnterprises projects={projects} />

@@ -12,7 +12,7 @@ export const Medias = () => {
     <ContainerCSS>
       <span>redes sociais</span>
       <Anchor
-        href="https://www.instagram.com/grm_incorporadora/"
+        href="https://www.linkedin.com/company/grm-incorporadora/?viewAsMember=true"
         ariaLabel="LinkedIn"
       >
         <LinkedInIcon />
@@ -21,7 +21,7 @@ export const Medias = () => {
         <FacebookIcon />
       </Anchor> */}
       <Anchor
-        href="https://www.linkedin.com/company/grm-incorporadora/?viewAsMember=true"
+        href="https://www.instagram.com/grm_incorporadora/"
         ariaLabel="Instagram"
       >
         <InstagramIcon />

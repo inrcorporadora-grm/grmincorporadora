@@ -13,36 +13,30 @@ interface AnotherEnterprisesProps {
 
 export const AnotherEnterprises = ({ projects }: AnotherEnterprisesProps) => {
   const [separatesProjects, setSeparatesProjects] = useState<iProject[][]>([]);
-  const [separatesProjectsIds, setSeparatesProjectsIds] = useState<
-    { id: string; group: number }[]
-  >([{ id: generateId(), group: 0 }]);
+  const separatesProjectsIds: string[] = [];
 
   useEffect(() => {
     setSeparatesProjects(
       projects.reduce((accumulator: iProject[][], item, i) => {
         const group = Math.floor(i / 6);
         accumulator[group] = [...(accumulator[group] || []), item];
-
-        // generate ids for separates projects list
-        setSeparatesProjectsIds((prevIds) => {
-          const newIds = prevIds;
-          if (newIds[group].group !== group) {
-            newIds[group].id = generateId();
-          }
-          return newIds;
-        });
-
         return accumulator;
       }, []),
     );
   }, [projects]);
+  useEffect(() => {
+    for (let i = 0; i < separatesProjects.length; i++) {
+      separatesProjectsIds.push(generateId());
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [separatesProjects]);
 
   return (
     <ContainerCSS>
       <SubTitleCSS>OUTROS EMPREENDIMENTOS</SubTitleCSS>
       <div className="mx-w">
         {separatesProjects.map((separateProjects, i) => (
-          <div key={separatesProjectsIds[i].id}>
+          <div key={separatesProjectsIds[i]}>
             <nav>
               {separateProjects.map((project) => (
                 <Link key={project.id} href={`/enterprises/${project.id}`}>
