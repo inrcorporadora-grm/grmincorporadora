@@ -22,8 +22,29 @@ export const ContainerCSS = styled.div`
         display: flex;
         flex-direction: column;
         text-transform: uppercase;
-        font-size: 1.2rem;
+        font-size: 1.1rem;
         padding: 1rem 0;
+
+        a {
+          margin: 0.2rem 0;
+        }
+      }
+    }
+
+    @media (max-width: ${({ theme }) => theme.mediaQueries.maxMobile}) {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+
+      > div {
+        flex-direction: column;
+        width: 100%;
+
+        > hr {
+          width: 100%;
+          height: 2px;
+          margin: 0;
+        }
       }
     }
   }

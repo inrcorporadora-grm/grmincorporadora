@@ -99,7 +99,7 @@ const RootCSS = createGlobalStyle`
   .mx-w {
     margin: 0 auto;
     max-width: calc(100% - 2rem); // 100% - margin-left (1rem) - margin-right (1rem)
-    @media (min-width: ${({ theme }) => theme.mediaQueries.minTablet}) {
+    @media (min-width: 1024px) {
       max-width: var(--max-width);
       margin: 0 auto;
     }

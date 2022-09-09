@@ -13,23 +13,25 @@ interface AnotherEnterprisesProps {
 
 export const AnotherEnterprises = ({ projects }: AnotherEnterprisesProps) => {
   const [separatesProjects, setSeparatesProjects] = useState<iProject[][]>([]);
-  const separatesProjectsIds: string[] = [];
+  const [separatesProjectsIds, setSeparatesProjectsIds] = useState<string[]>(
+    [],
+  );
 
   useEffect(() => {
     setSeparatesProjects(
-      projects.reduce((accumulator: iProject[][], item, i) => {
-        const group = Math.floor(i / 6);
-        accumulator[group] = [...(accumulator[group] || []), item];
-        return accumulator;
-      }, []),
+      projects
+        .filter((_, i) => i <= 13)
+        .reduce((accumulator: iProject[][], item, i) => {
+          const group = Math.floor(i / 7);
+          accumulator[group] = [...(accumulator[group] || []), item];
+          setSeparatesProjectsIds((prev) => {
+            if (prev[group]) prev.push(generateId());
+            return prev;
+          });
+          return accumulator;
+        }, []),
     );
   }, [projects]);
-  useEffect(() => {
-    for (let i = 0; i < separatesProjects.length; i++) {
-      separatesProjectsIds.push(generateId());
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [separatesProjects]);
 
   return (
     <ContainerCSS>
@@ -37,6 +39,7 @@ export const AnotherEnterprises = ({ projects }: AnotherEnterprisesProps) => {
       <div className="mx-w">
         {separatesProjects.map((separateProjects, i) => (
           <div key={separatesProjectsIds[i]}>
+            {i !== 0 && <HrCSS direction="vertical" size="100%" stroke="2px" />}
             <nav>
               {separateProjects.map((project) => (
                 <Link key={project.id} href={`/enterprises/${project.id}`}>
@@ -44,9 +47,6 @@ export const AnotherEnterprises = ({ projects }: AnotherEnterprisesProps) => {
                 </Link>
               ))}
             </nav>
-            {i + 1 < separatesProjects.length && (
-              <HrCSS direction="vertical" size="100%" stroke="2px" />
-            )}
           </div>
         ))}
       </div>

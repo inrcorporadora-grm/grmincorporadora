@@ -1,14 +1,14 @@
 import type { iSharedThemeOptions } from 'types/iTheme';
 
 export const BREAKPOINTS = {
-  $MAX_MOBILE: 768,
+  $MAX_MOBILE: 816,
   $MAX_TABLET: 890,
   $MIN_TABLET: 891,
   $MIN_MOBILE: 769,
 };
 
 export const sharedTheme: iSharedThemeOptions = {
-  maxWidth: '65rem',
+  maxWidth: '60rem',
 
   header: {
     desktopHeight: '5rem',

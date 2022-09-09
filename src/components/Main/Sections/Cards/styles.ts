@@ -28,6 +28,7 @@ export const ContainerCSS = styled.section`
   }
   > .see-more {
     text-align: center;
+    margin-top: 2rem;
     > button {
       font-weight: 600;
     }

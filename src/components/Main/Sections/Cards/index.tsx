@@ -40,7 +40,7 @@ export const Cards = ({ projects }: CardsProps) => {
           project.status === (page === DEFAULT_PAGE ? 'new' : 'delivered'),
       ),
     );
-    setAmountCards(3);
+    setAmountCards(6);
   }, [page, projects]);
 
   return (
