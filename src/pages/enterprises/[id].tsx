@@ -26,7 +26,6 @@ const Project = ({ projectId }: ProjectProps) => {
 
   const [project, projectLoading] = useGetProjectImage(projectDb);
   const [page, setPage] = useState('in-progress');
-
   useEffect(() => {
     setPage(project?.status === 'new' ? 'in-progress' : 'deliveries');
   }, [project]);

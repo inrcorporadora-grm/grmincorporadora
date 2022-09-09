@@ -1,9 +1,5 @@
 import styled, { css } from 'styled-components';
 
-interface ContainerCSSProps {
-  showHiddenSlides?: boolean;
-}
-
 export const altImageCSS = css`
   .alt-image {
     z-index: 999;
@@ -19,14 +15,13 @@ export const altImageCSS = css`
   }
 `;
 
-export const ContainerCSS = styled.div<ContainerCSSProps>`
-  overflow: hidden;
+export const ContainerCSS = styled.div`
+  overflow-x: hidden;
   position: relative;
-  width: ${({ showHiddenSlides }) =>
-    !showHiddenSlides ? 'var(--max-width)' : '100%'};
+  width: var(--max-width);
 
   > .embla__viewport {
-    overflow: hidden;
+    overflow-x: hidden;
     width: 100%;
 
     &.is-draggable {

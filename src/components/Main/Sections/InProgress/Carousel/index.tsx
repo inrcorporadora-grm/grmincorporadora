@@ -21,7 +21,6 @@ export const CarouselProjects = ({ projects }: CarouselProjectsProps) => {
   return (
     <div className="carousel">
       <Carousel
-        showHiddenSlides
         amountSlides={projects.length}
         disabledClasses="Mui-disabled(button)"
         aria-label="slides de projetos em andamento"

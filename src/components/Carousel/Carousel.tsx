@@ -1,15 +1,15 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { toggleClassNameFocusableItems } from '@utils/toggleClassNameFocusableItems';
+
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
 import ClassNames from 'embla-carousel-class-names';
-import { toggleClassNameFocusableItems } from '@utils/toggleClassNameFocusableItems';
 
 import { HrCSS } from '@stylesComponents/Hr';
 import { NextButton, PrevButton } from './CarouselButtons';
 import { ContainerCSS } from './styles';
 
 interface CarouselProps {
-  showHiddenSlides?: boolean;
   amountSlides: number;
   disabledClasses?: string;
   children: React.ReactNode;
@@ -17,7 +17,6 @@ interface CarouselProps {
 }
 
 export const Carousel = ({
-  showHiddenSlides,
   disabledClasses,
   amountSlides,
   children,
@@ -29,11 +28,10 @@ export const Carousel = ({
       align: 'center',
       draggable: amountSlides > 1,
       skipSnaps: false,
+      active: true,
     },
     [
-      Autoplay({
-        delay: 10000, // 10 seconds
-      }),
+      Autoplay({ delay: 10000 }), // 10 seconds
       ClassNames(),
     ],
   );
@@ -76,11 +74,14 @@ export const Carousel = ({
     onSelect();
     onScroll();
   }, [embla, onSelect, onScroll]);
+  useEffect(() => {
+    embla?.reInit();
+    onScroll();
+  });
 
   return (
     <ContainerCSS
       className="embla mx-w"
-      showHiddenSlides={showHiddenSlides}
       tabIndex={0}
       aria-roledescription="slides"
       {...rest}

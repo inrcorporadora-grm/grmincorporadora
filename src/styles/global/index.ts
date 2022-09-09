@@ -35,6 +35,7 @@ const RootCSS = createGlobalStyle`
     font-size: var(--font-size);
   }
   body {
+    overflow-x: hidden;
     padding: 0 !important;
     color: rgb(var(--color-text600));
     font-family: var(--font-primary);

@@ -19,31 +19,33 @@ export const Gallery = ({ images, title }: GalleryProps) => {
     <section className="gallery-images">
       <SubTitleCSS>{title}</SubTitleCSS>
 
-      <Carousel
-        amountSlides={images!.length}
-        aria-label={`slides das imagens: ${title}`}
-      >
-        {images!.map((image, i) => (
-          <CarouselItem
-            key={image.id}
-            id={image.id}
-            i={i}
-            amountSlides={images!.length}
-          >
-            <CarouselBackground>
-              <Image
-                src={image.url || (imageMock.url as string)}
-                alt={image.alt}
-                draggable={false}
-                layout="fill"
-                objectFit="cover"
-                priority
-              />
-              <span className="alt-image">{image.alt}</span>
-            </CarouselBackground>
-          </CarouselItem>
-        ))}
-      </Carousel>
+      {images && (
+        <Carousel
+          amountSlides={images!.length}
+          aria-label={`slides das imagens: ${title}`}
+        >
+          {images.map((image, i) => (
+            <CarouselItem
+              key={image.id}
+              id={image.id}
+              i={i}
+              amountSlides={images!.length}
+            >
+              <CarouselBackground>
+                <Image
+                  src={image.url || (imageMock.url as string)}
+                  alt={image.alt}
+                  draggable={false}
+                  layout="fill"
+                  objectFit="cover"
+                  priority
+                />
+                <span className="alt-image">{image.alt}</span>
+              </CarouselBackground>
+            </CarouselItem>
+          ))}
+        </Carousel>
+      )}
     </section>
   );
 };
