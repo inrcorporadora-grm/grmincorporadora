@@ -30,7 +30,7 @@ const About = () => {
         <SubTitleCSS>QUAL A SUA PERSPECTIVA DE VIVER BEM?</SubTitleCSS>
 
         <ParagraphCSS style={{ marginBottom: '3rem' }}>
-          Agente sabe que todo mundo tem um jeito único de viver bem. Por isso,
+          A gente sabe que todo mundo tem um jeito único de viver bem. Por isso,
           nos inspiramos em cada um de vocês.
         </ParagraphCSS>
 
