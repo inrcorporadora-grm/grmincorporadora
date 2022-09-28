@@ -60,16 +60,6 @@ const Project = ({ projectId }: ProjectProps) => {
                 project.locale
               }`}
             />
-            {project.video && (
-              <iframe
-                width="100%"
-                height="600px"
-                src={`https://youtube.com/embed/${project.video}`}
-                allowFullScreen
-                title="Video sobre o projeto"
-                style={{ border: 0, marginTop: '2rem' }}
-              />
-            )}
             {project.gallery && project.gallery.length > 0 && (
               <Gallery title="Galeria de fotos" images={project.gallery} />
             )}

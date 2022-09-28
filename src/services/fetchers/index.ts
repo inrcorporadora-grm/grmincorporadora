@@ -22,15 +22,7 @@ export const fetcher = {
 
 export const fetcherSWR = {
   useGet: <T>(url: string) =>
-    useSWR<T>(
-      url,
-      (urlFetch, options) =>
-        fetcher
-          .get<T>(urlFetch, options)
-          .then((res) => res)
-          .catch(() => null as T),
-      {
-        revalidateOnFocus: false,
-      },
-    ),
+    useSWR<T>(url, (urlFetch, options) => fetcher.get<T>(urlFetch, options), {
+      revalidateOnFocus: false,
+    }),
 };

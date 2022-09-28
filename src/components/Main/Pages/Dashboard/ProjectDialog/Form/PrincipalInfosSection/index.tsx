@@ -13,7 +13,6 @@ type References =
   | 'state'
   | 'name'
   | 'city'
-  | 'video'
   | 'description';
 
 interface PrincipalInfosSectionProps {
@@ -77,7 +76,7 @@ export const PrincipalInfosSection = ({
           required={false}
         />
         <Input
-          label="Plantas"
+          label="Dimensões"
           defaultValue={inputsReference.dimensions.value || ''}
           onInput={(ev) =>
             inputsReference.dimensions.set(
@@ -118,16 +117,6 @@ export const PrincipalInfosSection = ({
           placeholder="bairro, rua, número"
         />
       </div>
-      <Input
-        label="Vídeo"
-        type="url"
-        required={false}
-        defaultValue={inputsReference.video.value || ''}
-        placeholder="https://youtube.com/video"
-        onInput={(ev) =>
-          inputsReference.video.set((ev.target as HTMLInputElement).value)
-        }
-      />
 
       <Input
         type="multiline"
