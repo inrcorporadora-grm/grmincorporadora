@@ -17,7 +17,7 @@ export const Navigation = ({ page, setPage }: NavigationProps) => {
         active={page === 'in-progress'}
         href="/enterprises?page=in-progress"
       >
-        Lançamento
+        Lançamentos
       </ButtonLink>
       <HrCSS direction="vertical" size="100%" stroke="2px" />
       <ButtonLink

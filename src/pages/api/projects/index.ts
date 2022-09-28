@@ -13,6 +13,7 @@ export default async function handle(
     }
     if (req.method === 'POST') {
       const projectSubmit = req.body;
+
       const data = (await db.in('projects').add(projectSubmit)) as iProject[];
       return res.status(200).json(data);
     }

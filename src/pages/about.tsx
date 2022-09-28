@@ -18,7 +18,7 @@ const About = () => {
           partir da perspectiva humana.
         </ParagraphCSS>
         <ParagraphCSS>
-          Nossa inspiração em cada projeto tem este propósito:criar projetos
+          Nossa inspiração em cada projeto tem este propósito: criar projetos
           especiais para clientes únicos. Para tal, construímos uma nova marca
           antenada com as mudanças, tendências e aspirações de cada um de nossos
           clientes para continuarmos a surpreendê-los. Entender seu momento,
