@@ -51,7 +51,7 @@ export const ImageInputs = <
                 return newImage;
               });
           }}
-          maxFileSize="5mb"
+          maxFileSize="10mb"
           acceptedFileTypes={['jpg', 'png', 'webp']}
           allowImagePreview
           labelIdle='Arraste e Solte ou <span class="filepond--label-action">navegue</span'

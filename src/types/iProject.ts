@@ -8,6 +8,7 @@ export interface iProjectForm {
   address: string;
   dimensions: string;
   description: string;
+  video?: string;
 
   name: {
     localeType?: string;

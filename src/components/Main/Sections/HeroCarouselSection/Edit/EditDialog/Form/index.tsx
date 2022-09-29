@@ -55,13 +55,14 @@ export const Form = ({
   const [slidesToSubmit, setSlidesToSubmit] = useState<iProject[] | iImage[]>(
     slides[0].is === 'project' ? slides : [{ ...contrastImage, ...slides[0] }],
   );
+  const [buttonsDisabled, setButtonsDisabled] = useState(false);
 
   return (
     <FormBox
       onSubmit={() => {
         const page = pathname.replace('/', '');
         const pageVerify = page.trim().length <= 0 ? 'home' : page;
-
+        setButtonsDisabled(true);
         const toSubmit =
           slidesToSubmit[0].is === 'project'
             ? slidesToSubmit.map((slide) => slide.id)
@@ -84,7 +85,8 @@ export const Form = ({
             setOpen(false);
             return res;
           })
-          .catch(() => alert(messages.error.err));
+          .catch(() => alert(messages.error.err))
+          .finally(() => setButtonsDisabled(false));
       }}
     >
       <section>
@@ -163,6 +165,7 @@ export const Form = ({
       )}
 
       <DialogActions
+        disabled={buttonsDisabled}
         onClickCancel={() => {
           if (window.confirm(messages.confirm.cancel)) {
             setOpen(false);

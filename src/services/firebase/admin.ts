@@ -1,4 +1,4 @@
-import * as admin from 'firebase-admin';
+import admin from 'firebase-admin';
 import adminsdk from './adminsdk.json';
 
 if (!admin.apps.length) {
@@ -8,6 +8,7 @@ if (!admin.apps.length) {
       clientEmail: adminsdk.client_email,
       privateKey: adminsdk.private_key,
     }),
+    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
   });
 }
 

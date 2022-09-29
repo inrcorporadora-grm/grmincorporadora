@@ -11,7 +11,7 @@ export async function getProjectImages(project: iProject) {
   const illustrativeImages = await getImages(
     `projects/${project?.id}/illustrative`,
   );
-  await urlToDataUrl(image[0].url).then((dataUrl) => {
+  await urlToDataUrl(image[0]?.url).then((dataUrl) => {
     newProject.image = { ...project.image, url: dataUrl };
   });
 
@@ -21,7 +21,7 @@ export async function getProjectImages(project: iProject) {
       project.plans.map(async (plan) => {
         const newPlan = plan;
         const i = plansImages.findIndex((item) => item.path.includes(plan.id));
-        await urlToDataUrl(plansImages[i].url).then((base64) => {
+        await urlToDataUrl(plansImages[i]?.url).then((base64) => {
           newPlan.url = base64;
         });
         return newPlan;
@@ -35,7 +35,7 @@ export async function getProjectImages(project: iProject) {
         const i = galleryImages.findIndex((item) =>
           item.path.includes(galleryImage.id),
         );
-        await urlToDataUrl(galleryImages[i].url).then((base64) => {
+        await urlToDataUrl(galleryImages[i]?.url).then((base64) => {
           newGalleryImage.url = base64;
         });
 

@@ -1,31 +1,28 @@
-import type { iProject } from 'types/iProject';
 import type { iPage } from 'types/iPage';
 
 import { fetcherSWR } from '@services/fetchers';
-import { useGetProjectImage } from '@hooks/useGetProjectImage';
 
 import { Main } from '@components/Main';
 import { Cards } from '@components/Main/Sections/Cards';
 
 import { AnotherEnterprises } from '@components/Main/Sections/AnotherEnterprises';
+import { useLayoutContext } from '@contexts/Layout/useLayoutContext';
 
 const Enterprises = () => {
-  const { data: projectsDb } = fetcherSWR.useGet<iProject[]>('/api/projects');
+  const { projects } = useLayoutContext();
   const { data: pageProps, isValidating: pagePropsLoading } =
     fetcherSWR.useGet<iPage>('/api/pages/enterprises');
-
-  const [projects, projectsLoading] = useGetProjectImage(projectsDb);
 
   return (
     <Main
       slides={pageProps?.slides}
-      projects={projects}
-      isLoading={pagePropsLoading || projectsLoading}
+      projects={projects.projects}
+      isLoading={pagePropsLoading || projects.loading}
     >
-      {projects && !projectsLoading && (
+      {projects.projects && !projects.loading && (
         <>
-          <Cards projects={projects} />
-          <AnotherEnterprises projects={projects} />
+          <Cards projects={projects.projects} />
+          <AnotherEnterprises projects={projects.projects} />
         </>
       )}
     </Main>

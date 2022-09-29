@@ -1,32 +1,31 @@
-import type { iProject } from 'types/iProject';
 import type { iPage } from 'types/iPage';
 import { fetcherSWR } from '@services/fetchers';
-import { useGetProjectImage } from '@hooks/useGetProjectImage';
 
 import { Main } from '@components/Main';
 import { InProgress } from '@components/Main/Sections/InProgress';
 import { Deliveries } from '@components/Main/Sections/Deliveries';
+import { useLayoutContext } from '@contexts/Layout/useLayoutContext';
 
 const Home = () => {
-  const { data: projectsDb } = fetcherSWR.useGet<iProject[]>('/api/projects');
+  const { projects } = useLayoutContext();
   const { data: pageProps, isValidating: pagePropsLoading } =
     fetcherSWR.useGet<iPage>('/api/pages/home');
-
-  const [projects, projectsLoading] = useGetProjectImage(projectsDb);
 
   return (
     <Main
       slides={pageProps?.slides}
-      projects={projects}
-      isLoading={pagePropsLoading || projectsLoading}
+      projects={projects.projects}
+      isLoading={pagePropsLoading || projects.loading}
     >
-      {projects && (
+      {projects.projects && (
         <>
           <InProgress
-            projects={projects.filter((project) => project.status === 'new')}
+            projects={projects.projects.filter(
+              (project) => project.status === 'new',
+            )}
           />
           <Deliveries
-            projects={projects.filter(
+            projects={projects.projects.filter(
               (project, i) => project.status === 'delivered' && i < 3, // only three projects
             )}
           />

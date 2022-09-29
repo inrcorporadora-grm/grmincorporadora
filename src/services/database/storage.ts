@@ -18,7 +18,32 @@ export const str = {
           });
         });
       },
-      async del() {
+      async del(all?: boolean) {
+        if (all) {
+          await Promise.all(
+            (
+              await storage.listAll(ref)
+            ).prefixes.map(async (childRef) => {
+              await Promise.all(
+                (
+                  await storage.listAll(childRef)
+                ).items.map(async (child) => {
+                  await storage.deleteObject(child);
+                  return child;
+                }),
+              );
+              return childRef;
+            }),
+          );
+          await Promise.all(
+            (
+              await storage.listAll(ref)
+            ).items.map(async (child) => {
+              await storage.deleteObject(child);
+              return child;
+            }),
+          );
+        }
         return storage.deleteObject(ref);
       },
     };

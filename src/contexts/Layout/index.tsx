@@ -6,6 +6,9 @@ import { GlobalStyles } from '@globalStyles';
 import { defaultTheme } from '@globalStyles/themes/default';
 
 import { getCookie } from '@services/cookies';
+import { fetcherSWR } from '@services/fetchers';
+import { useGetProjectImage } from '@hooks/useGetProjectImage';
+import { iProject } from 'types/iProject';
 import type { iLayoutContext } from './iLayoutContext';
 
 export const LayoutContext = createContext<iLayoutContext>(
@@ -23,6 +26,9 @@ export const LayoutProvider = ({ children }: LayoutProviderProps) => {
   const isSpecialPage =
     pathname.includes('/admin') || pathname.includes('_error');
 
+  const { data: projectsDb } = fetcherSWR.useGet<iProject[]>('/api/projects');
+  const [projects, projectsLoading] = useGetProjectImage(projectsDb);
+
   useEffect(() => {
     setCurrWidth(window.innerWidth);
     window.addEventListener('resize', () => setCurrWidth(window.innerWidth));
@@ -39,8 +45,12 @@ export const LayoutProvider = ({ children }: LayoutProviderProps) => {
       isSpecialPage,
       isUserAdmin,
       setIsUserAdmin,
+      projects: {
+        projects,
+        loading: projectsLoading,
+      },
     }),
-    [currWidth, isUserAdmin, isSpecialPage],
+    [currWidth, isUserAdmin, isSpecialPage, projects, projectsLoading],
   );
 
   return (

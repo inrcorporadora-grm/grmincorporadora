@@ -6,6 +6,7 @@ import {
   getDownloadURL,
   listAll,
   deleteObject,
+  list,
 } from 'firebase/storage';
 import {
   getAuth,
@@ -35,5 +36,6 @@ export const storage = {
   uploadString,
   deleteObject,
   listAll,
+  list,
   ref,
 };

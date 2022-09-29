@@ -8,6 +8,7 @@ interface CreateSubmitForm {
   description: string;
   dimensions: string;
   infos: iTableProject['infos'];
+  video: string | undefined;
   localeType: string;
   name: string;
   city: string;
@@ -19,6 +20,13 @@ interface CreateSubmitForm {
   illustrative: iTableProject['illustrative'];
 }
 
+function ytParser(url: string) {
+  const regExp =
+    /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+  const match = url.match(regExp);
+  return match && match[7].length === 11 ? match[7] : false;
+}
+
 export function createSubmitForm(
   {
     address,
@@ -28,6 +36,7 @@ export function createSubmitForm(
     infos,
     localeType,
     name,
+    video,
     city,
     state,
     projectStatus,
@@ -39,12 +48,15 @@ export function createSubmitForm(
   project: iTableProject | undefined,
   type: 'edit' | 'add',
 ) {
+  const urlVideo = getValue(video);
+
   const projectSubmit = {
     address: getValue(address),
     dataSheets,
     description,
     dimensions,
     infos,
+    video: urlVideo ? ytParser(urlVideo) : undefined,
     is: 'project',
     locale: `${city}/${state.substring(0, 2)}`,
     name: {

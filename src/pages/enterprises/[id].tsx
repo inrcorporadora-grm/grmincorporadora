@@ -12,17 +12,17 @@ import { DataSheets } from '@components/Main/Pages/Project/DataSheets';
 import { Gallery } from '@components/Main/Pages/Project/Gallery';
 
 import { ParagraphCSS, SubTitleCSS, TitleCSS } from '@stylesComponents/Texts';
+import { useLayoutContext } from '@contexts/Layout/useLayoutContext';
 
 interface ProjectProps {
   projectId: string;
 }
 
 const Project = ({ projectId }: ProjectProps) => {
+  const { projects } = useLayoutContext();
   const { data: projectDb } = fetcherSWR.useGet<iProject>(
     `/api/projects/${projectId}`,
   );
-  const { data: projects, isValidating: projectsLoading } =
-    fetcherSWR.useGet<iProject[]>(`/api/projects`);
 
   const [project, projectLoading] = useGetProjectImage(projectDb);
   const [page, setPage] = useState('in-progress');
@@ -32,9 +32,9 @@ const Project = ({ projectId }: ProjectProps) => {
 
   return (
     <Main
-      projects={projects}
+      projects={projects.projects}
       slides={project?.image}
-      isLoading={projectLoading || projectsLoading}
+      isLoading={projectLoading || projects.loading}
       blockEdit
     >
       <section className="project">
@@ -60,6 +60,16 @@ const Project = ({ projectId }: ProjectProps) => {
                 project.locale
               }`}
             />
+            {project.video && (
+              <iframe
+                width="100%"
+                height="600px"
+                src={`https://youtube.com/embed/${project.video}`}
+                allowFullScreen
+                title="Video sobre o projeto"
+                style={{ border: 0, marginTop: '2rem' }}
+              />
+            )}
             {project.gallery && project.gallery.length > 0 && (
               <Gallery title="Galeria de fotos" images={project.gallery} />
             )}
@@ -73,7 +83,7 @@ const Project = ({ projectId }: ProjectProps) => {
         )}
       </section>
 
-      {projects && <AnotherEnterprises projects={projects} />}
+      {projects.projects && <AnotherEnterprises projects={projects.projects} />}
     </Main>
   );
 };

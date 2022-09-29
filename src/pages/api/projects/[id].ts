@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { db } from '@services/database';
 import { iProject } from 'types/iProject';
+import { str } from '@services/database/storage';
 
 export default async function handle(
   req: NextApiRequest,
@@ -15,7 +16,12 @@ export default async function handle(
       return res.status(200).json(data);
     }
     if (req.method === 'DELETE') {
-      return await db.in('projects').del(id);
+      await db.in('projects').del(id);
+      await str.in(`projects/${id}`).del(true);
+      await str.in(`projects/${id}/plans`).del(true);
+      await str.in(`projects/${id}/gallery`).del(true);
+      await str.in(`projects/${id}/illustrative`).del(true);
+      return res.status(200).json({ message: 'Project deleted.' });
     }
     if (req.method === 'GET') {
       const data = (await db.in('projects').get(id)) as iProject;
