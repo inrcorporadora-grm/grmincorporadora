@@ -1,9 +1,7 @@
 import type { GetStaticPaths, GetStaticProps } from 'next';
-import type { iProject } from 'types/iProject';
 
 import { useState, useEffect } from 'react';
-import { fetcher, fetcherSWR } from '@services/fetchers';
-import { useGetProjectImage } from '@hooks/useGetProjectImage';
+import { fetcher } from '@services/fetchers';
 
 import { Main } from '@components/Main';
 import { AnotherEnterprises } from '@components/Main/Sections/AnotherEnterprises';
@@ -20,11 +18,10 @@ interface ProjectProps {
 
 const Project = ({ projectId }: ProjectProps) => {
   const { projects } = useLayoutContext();
-  const { data: projectDb } = fetcherSWR.useGet<iProject>(
-    `/api/projects/${projectId}`,
-  );
+  const project = projects.projects?.filter(
+    (projectDb) => projectDb.id === projectId,
+  )[0];
 
-  const [project, projectLoading] = useGetProjectImage(projectDb);
   const [page, setPage] = useState('in-progress');
   useEffect(() => {
     setPage(project?.status === 'new' ? 'in-progress' : 'deliveries');
@@ -34,7 +31,7 @@ const Project = ({ projectId }: ProjectProps) => {
     <Main
       projects={projects.projects}
       slides={project?.image}
-      isLoading={projectLoading || projects.loading}
+      isLoading={projects.loading}
       blockEdit
     >
       <section className="project">

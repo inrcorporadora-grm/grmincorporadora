@@ -27,7 +27,8 @@ export const LayoutProvider = ({ children }: LayoutProviderProps) => {
     pathname.includes('/admin') || pathname.includes('_error');
 
   const { data: projectsDb } = fetcherSWR.useGet<iProject[]>('/api/projects');
-  const [projects, projectsLoading] = useGetProjectImage(projectsDb);
+  const [projects, projectsLoading, setProjects] =
+    useGetProjectImage(projectsDb);
 
   useEffect(() => {
     setCurrWidth(window.innerWidth);
@@ -48,9 +49,17 @@ export const LayoutProvider = ({ children }: LayoutProviderProps) => {
       projects: {
         projects,
         loading: projectsLoading,
+        set: setProjects,
       },
     }),
-    [currWidth, isUserAdmin, isSpecialPage, projects, projectsLoading],
+    [
+      currWidth,
+      isUserAdmin,
+      isSpecialPage,
+      projects,
+      projectsLoading,
+      setProjects,
+    ],
   );
 
   return (

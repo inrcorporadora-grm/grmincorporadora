@@ -1,38 +1,33 @@
-import type { iProject } from 'types/iProject';
 import type { GetServerSideProps } from 'next';
 
 import { useState } from 'react';
 import { cookie } from '@services/cookies';
-import { fetcherSWR } from '@services/fetchers';
 import { useAuthContext } from '@contexts/Auth/useAuthContext';
-import { useGetProjectImage } from '@hooks/useGetProjectImage';
 
 import { Main } from '@components/Main';
 import { Button } from '@components/Buttons/Button';
 import { ProjectTable } from '@components/Main/Pages/Dashboard/ProjectTable';
 import { ProjectDialog } from '@components/Main/Pages/Dashboard/ProjectDialog';
 import { ParagraphCSS } from '@stylesComponents/Texts';
+import { useLayoutContext } from '@contexts/Layout/useLayoutContext';
 
 const Dashboard = () => {
+  const { projects } = useLayoutContext();
   const { user } = useAuthContext();
-
-  const { data: projectsDb } = fetcherSWR.useGet<iProject[]>('/api/projects');
-  const [projects, projectsLoading, setProjects] =
-    useGetProjectImage(projectsDb);
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   return (
-    <Main isLoading={projectsLoading}>
+    <Main isLoading={projects.loading}>
       <section className="dashboard">
         <div>
           <ParagraphCSS>você está logado como: {user?.email}</ParagraphCSS>
           <Button onClick={() => setIsDialogOpen(true)}>
             Adicionar Projeto +
           </Button>
-          <ProjectTable projects={projects} />
+          <ProjectTable projects={projects.projects} />
           <ProjectDialog
-            setProjects={setProjects}
+            setProjects={projects.set}
             open={isDialogOpen}
             setOpen={setIsDialogOpen}
             title="Adicionar Projeto"

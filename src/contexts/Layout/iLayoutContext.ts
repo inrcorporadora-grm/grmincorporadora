@@ -10,5 +10,6 @@ export interface iLayoutContext {
   projects: {
     projects: iProject[] | undefined;
     loading: boolean;
+    set: React.Dispatch<React.SetStateAction<iProject[] | undefined>>;
   };
 }
