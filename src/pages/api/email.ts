@@ -15,7 +15,7 @@ export default async function handle(
 
   const info = await transporter.sendMail({
     from: req.body.email,
-    to: process.env.GRM_MAIL,
+    to: process.env.TRANSPORTER_MAIL,
     replyTo: req.body.email,
     subject: `Contato através do website: ${process.env.NEXT_PUBLIC_HOST}`,
     text: req.body.message,
