@@ -22,7 +22,7 @@ export const Form = () => {
       email,
       message: [
         `<h1><b>CONTATO por ${name} (${email})</b></h1> <br/><br/>`,
-        `Mensagem:<br/>${text}`,
+        `<h2>Mensagem:</h2><br/>${text}`,
       ].toString(),
     };
 
