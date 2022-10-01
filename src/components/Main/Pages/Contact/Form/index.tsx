@@ -1,4 +1,4 @@
-import { createRef } from 'react';
+import { createRef, useState } from 'react';
 import { fetcher } from '@services/fetchers';
 import { messages } from '@utils/messages';
 
@@ -11,8 +11,11 @@ export const Form = () => {
   const nameRef = createRef<HTMLInputElement>();
   const emailRef = createRef<HTMLInputElement>();
   const messageRef = createRef<HTMLTextAreaElement>();
+  const [isLoading, setIsLoading] = useState(false);
 
   function submit() {
+    setIsLoading(true);
+
     const name = nameRef.current!.value;
     const email = emailRef.current!.value;
     const text = messageRef.current!.value;
@@ -29,7 +32,8 @@ export const Form = () => {
     fetcher
       .post('/api/email', message)
       .then(() => alert(messages.submit.contact))
-      .catch(() => alert(messages.error.err));
+      .catch(() => alert(messages.error.err))
+      .finally(() => setIsLoading(false));
   }
 
   return (
@@ -46,6 +50,7 @@ export const Form = () => {
         type="submit"
         icon={<MailSendIcon />}
         styles={{ alignSelf: 'flex-end' }}
+        loading={isLoading}
       >
         enviar
       </Button>

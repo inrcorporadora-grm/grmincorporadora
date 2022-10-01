@@ -13,37 +13,28 @@ import { SubTitleCSS } from '@stylesComponents/Texts';
 import { submit } from './utils/submit';
 
 export const Form = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [cepField, setCepField] = useState(true);
-  const telRef = useRef<HTMLInputElement>(null);
-  const cepRef = useRef<HTMLInputElement>(null);
-  const nameRef = useRef<HTMLInputElement>(null);
-  const cityRef = useRef<HTMLInputElement>(null);
-  const stateRef = useRef<HTMLInputElement>(null);
-  const phoneRef = useRef<HTMLInputElement>(null);
-  const emailRef = useRef<HTMLInputElement>(null);
-  const companyRef = useRef<HTMLInputElement>(null);
-  const addressRef = useRef<HTMLInputElement>(null);
-  const proposalRef = useRef<HTMLTextAreaElement>(null);
-  const districtRef = useRef<HTMLTextAreaElement>(null);
-  const imagesLinkRef = useRef<HTMLInputElement>(null);
+  const formRefs = {
+    telRef: useRef<HTMLInputElement>(null),
+    cepRef: useRef<HTMLInputElement>(null),
+    nameRef: useRef<HTMLInputElement>(null),
+    cityRef: useRef<HTMLInputElement>(null),
+    stateRef: useRef<HTMLInputElement>(null),
+    phoneRef: useRef<HTMLInputElement>(null),
+    emailRef: useRef<HTMLInputElement>(null),
+    companyRef: useRef<HTMLInputElement>(null),
+    addressRef: useRef<HTMLInputElement>(null),
+    proposalRef: useRef<HTMLTextAreaElement>(null),
+    districtRef: useRef<HTMLTextAreaElement>(null),
+    imagesLinkRef: useRef<HTMLInputElement>(null),
+  };
 
   return (
     <FormBox
       onSubmit={() => {
-        submit({
-          telRef,
-          cepRef,
-          nameRef,
-          cityRef,
-          stateRef,
-          phoneRef,
-          emailRef,
-          companyRef,
-          addressRef,
-          proposalRef,
-          districtRef,
-          imagesLinkRef,
-        });
+        setIsLoading(true);
+        submit(formRefs).finally(() => setIsLoading(false));
       }}
       style={{
         '& > section > .MuiTextField-root': {
@@ -52,25 +43,29 @@ export const Form = () => {
       }}
     >
       <section>
-        <Input label="Seu Nome" inputReference={nameRef} />
-        <Input label="Seu Email" inputReference={emailRef} type="email" />
+        <Input label="Seu Nome" inputReference={formRefs.nameRef} />
+        <Input
+          label="Seu Email"
+          inputReference={formRefs.emailRef}
+          type="email"
+        />
         <section style={{ display: 'flex' }}>
           <Input
             label="Telefone"
-            inputReference={telRef}
+            inputReference={formRefs.telRef}
             type="tel"
             mask="(99) 9999-9999"
           />
           <Input
             label="Celular"
-            inputReference={phoneRef}
+            inputReference={formRefs.phoneRef}
             type="tel"
             mask="+55 (99) \99999-9999"
           />
         </section>
         <Input
           label="Empresa"
-          inputReference={companyRef}
+          inputReference={formRefs.companyRef}
           type="text"
           required={false}
         />
@@ -80,7 +75,7 @@ export const Form = () => {
         <section className="cep" style={{ display: 'flex' }}>
           <Input
             label="Cep"
-            inputReference={cepRef}
+            inputReference={formRefs.cepRef}
             mask="99999-999"
             required={cepField}
             disabled={!cepField}
@@ -91,19 +86,27 @@ export const Form = () => {
         </section>
         <Input
           label="Endereço"
-          inputReference={addressRef}
+          inputReference={formRefs.addressRef}
           type="text"
           placeholder="rua, número"
         />
-        <Input label="Bairro" inputReference={districtRef} type="text" />
+        <Input
+          label="Bairro"
+          inputReference={formRefs.districtRef}
+          type="text"
+        />
 
         <section style={{ display: 'flex' }}>
-          <Input label="Cidade" inputReference={cityRef} type="text" />
-          <Input label="Estado" inputReference={stateRef} type="text" />
+          <Input label="Cidade" inputReference={formRefs.cityRef} type="text" />
+          <Input
+            label="Estado"
+            inputReference={formRefs.stateRef}
+            type="text"
+          />
         </section>
         <Input
           label="Link das Imagens"
-          inputReference={imagesLinkRef}
+          inputReference={formRefs.imagesLinkRef}
           type="url"
           required={false}
         />
@@ -111,13 +114,14 @@ export const Form = () => {
           type="multiline"
           label="Sua proposta"
           rows={10}
-          inputReference={proposalRef}
+          inputReference={formRefs.proposalRef}
         />
       </section>
       <Button
         type="submit"
         icon={<MailSendIcon />}
         styles={{ alignSelf: 'flex-end' }}
+        loading={isLoading}
       >
         enviar
       </Button>

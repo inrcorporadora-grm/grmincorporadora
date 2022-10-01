@@ -17,7 +17,7 @@ interface Submit {
   imagesLinkRef: React.RefObject<HTMLInputElement>;
 }
 
-export function submit({
+export async function submit({
   telRef,
   cepRef,
   nameRef,
@@ -66,7 +66,7 @@ export function submit({
     message: dataSheet,
   };
 
-  fetcher
+  return fetcher
     .post('/api/email', message)
     .then(() => alert(messages.submit.dataSheets))
     .catch(() => alert(messages.error.err));
