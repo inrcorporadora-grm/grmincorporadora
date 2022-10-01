@@ -56,16 +56,9 @@ export const Carousel = ({
     if (!embla) return;
     emblaSlides?.forEach((slide) => {
       const showedSlide = slide;
-      const slidePositions = showedSlide.getBoundingClientRect();
-
-      const startSlide = slidePositions.x;
-      const endSlide = slidePositions.x + slidePositions.width;
-
-      if (startSlide >= 0 && endSlide <= window.innerWidth) {
-        showedSlide.classList.add('slide-selected');
+      if (slide.classList.contains('is-selected')) {
         toggleClassNameFocusableItems(showedSlide, 'visible', disabledClasses);
       } else {
-        showedSlide.classList.remove('slide-selected');
         toggleClassNameFocusableItems(showedSlide, 'hidden', disabledClasses);
       }
     });
@@ -79,8 +72,10 @@ export const Carousel = ({
     onScroll();
   }, [embla, onSelect, onScroll]);
   useEffect(() => {
-    if (!loopOff) embla?.reInit();
-    onScroll();
+    if (!loopOff) {
+      embla?.reInit();
+      onScroll();
+    }
   });
 
   return (

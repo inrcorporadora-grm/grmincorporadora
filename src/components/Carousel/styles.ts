@@ -20,14 +20,15 @@ interface ContainerCSSProps {
 }
 
 export const ContainerCSS = styled.div<ContainerCSSProps>`
-  overflow-x: ${({ showHiddenSlides }) =>
+  --overflow-slide: ${({ showHiddenSlides }) =>
     showHiddenSlides ? 'unset' : 'hidden'};
+
+  overflow-x: var(--overflow-slide);
   position: relative;
   width: var(--max-width);
 
   > .embla__viewport {
-    overflow-x: ${({ showHiddenSlides }) =>
-      showHiddenSlides ? 'unset' : 'hidden'};
+    overflow-x: var(--overflow-slide);
     width: 100%;
 
     &.is-draggable {
@@ -48,7 +49,6 @@ export const ContainerCSS = styled.div<ContainerCSSProps>`
         min-width: var(--max-width);
         transition: filter, opacity 0.5s ease-in-out;
 
-        &.slide-selected,
         &.is-selected {
           opacity: 1;
           filter: unset;
@@ -68,7 +68,9 @@ export const ContainerCSS = styled.div<ContainerCSSProps>`
       opacity: 0.7;
     }
   }
-
+  @media (max-width: 1000px) {
+    --overflow-slide: hidden;
+  }
   @media (max-width: ${({ theme }) => theme.mediaQueries.maxTablet}) {
     width: 100%;
     > .embla__viewport {

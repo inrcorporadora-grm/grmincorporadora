@@ -21,7 +21,7 @@ export const Gallery = ({ images, title }: GalleryProps) => {
 
       {images && (
         <Carousel
-          amountSlides={images!.length}
+          amountSlides={images.length}
           aria-label={`slides das imagens: ${title}`}
         >
           {images.map((image, i) => (

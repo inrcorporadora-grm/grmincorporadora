@@ -8,7 +8,7 @@ export const ArrowIcon = styled(ArrowDropRight)`
 
 export const ArrowButton = styled.button`
   color: rgb(var(--color-text600));
-  opacity: 0.5;
+  opacity: 0.7;
   transition: 0.1s ease-in-out;
 
   &:hover,
@@ -22,6 +22,22 @@ export const ArrowButton = styled.button`
   }
   &:first-child:active {
     transform: rotate(180deg) scale(0.95) !important;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    &:hover,
+    &:focus,
+    &:active {
+      color: rgb(var(--color-text600));
+    }
+    &:active {
+      transform: scale(1);
+    }
+    &:first-child:active {
+      transform: rotate(180deg) scale(1) !important;
+    }
   }
 `;
 export const DotButtonCSS = styled.button`
