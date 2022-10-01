@@ -8,29 +8,15 @@ import { ContentCSS } from './styles';
 
 interface CardDeliveredProps {
   project: iProject;
-  index: number;
-  length: number;
 }
 
-export const CardDelivered = ({
-  project,
-  index,
-  length,
-}: CardDeliveredProps) => {
+export const CardDelivered = ({ project }: CardDeliveredProps) => {
   return (
     <Card
       aria-label="cartão de projeto entregue"
       image={project.image}
       name={project.name}
-      size={
-        length > 1
-          ? index === 0
-            ? 'small'
-            : index === 1
-            ? 'medium'
-            : 'large'
-          : 'large'
-      }
+      size="small"
     >
       <ContentCSS className="card__content-hidden">
         <ParagraphCSS size="1.5rem" uppercase>

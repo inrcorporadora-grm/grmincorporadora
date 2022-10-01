@@ -26,7 +26,7 @@ const Home = () => {
           />
           <Deliveries
             projects={projects.projects.filter(
-              (project, i) => project.status === 'delivered' && i < 3, // only three projects
+              (project, i) => project.status === 'delivered' && i <= 6, // only six projects
             )}
           />
         </>

@@ -15,13 +15,19 @@ export const altImageCSS = css`
   }
 `;
 
-export const ContainerCSS = styled.div`
-  overflow-x: hidden;
+interface ContainerCSSProps {
+  showHiddenSlides?: boolean;
+}
+
+export const ContainerCSS = styled.div<ContainerCSSProps>`
+  overflow-x: ${({ showHiddenSlides }) =>
+    showHiddenSlides ? 'unset' : 'hidden'};
   position: relative;
   width: var(--max-width);
 
   > .embla__viewport {
-    overflow-x: hidden;
+    overflow-x: ${({ showHiddenSlides }) =>
+      showHiddenSlides ? 'unset' : 'hidden'};
     width: 100%;
 
     &.is-draggable {
@@ -42,7 +48,8 @@ export const ContainerCSS = styled.div`
         min-width: var(--max-width);
         transition: filter, opacity 0.5s ease-in-out;
 
-        &.slide-selected {
+        &.slide-selected,
+        &.is-selected {
           opacity: 1;
           filter: unset;
         }

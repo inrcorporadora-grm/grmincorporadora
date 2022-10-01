@@ -24,6 +24,8 @@ export const CarouselProjects = ({ projects }: CarouselProjectsProps) => {
         amountSlides={projects.length}
         disabledClasses="Mui-disabled(button)"
         aria-label="slides de projetos em andamento"
+        showHiddenSlides
+        loopOff
       >
         {projects.map((projectInProgress, i) => (
           <CarouselItem

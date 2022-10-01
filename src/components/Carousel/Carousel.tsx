@@ -14,17 +14,21 @@ interface CarouselProps {
   disabledClasses?: string;
   children: React.ReactNode;
   'aria-label': string;
+  showHiddenSlides?: boolean;
+  loopOff?: boolean;
 }
 
 export const Carousel = ({
+  showHiddenSlides,
   disabledClasses,
   amountSlides,
   children,
+  loopOff,
   ...rest
 }: CarouselProps) => {
   const [emblaRef, embla] = useEmblaCarousel(
     {
-      loop: amountSlides > 1,
+      loop: amountSlides > 1 && !loopOff,
       align: 'center',
       draggable: amountSlides > 1,
       skipSnaps: false,
@@ -75,7 +79,7 @@ export const Carousel = ({
     onScroll();
   }, [embla, onSelect, onScroll]);
   useEffect(() => {
-    embla?.reInit();
+    if (!loopOff) embla?.reInit();
     onScroll();
   });
 
@@ -84,6 +88,7 @@ export const Carousel = ({
       className="embla mx-w"
       tabIndex={0}
       aria-roledescription="slides"
+      showHiddenSlides={showHiddenSlides}
       {...rest}
     >
       <div className="embla__viewport" ref={emblaRef}>

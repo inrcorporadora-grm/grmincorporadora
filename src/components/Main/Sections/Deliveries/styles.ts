@@ -11,6 +11,7 @@ export const ContainerCSS = styled.section`
     > .projects {
       display: flex;
       flex-wrap: wrap;
+      justify-content: center;
 
       > .card {
         margin: 0.5rem;
@@ -23,15 +24,6 @@ export const ContainerCSS = styled.section`
             visibility: visible;
           }
         }
-      }
-      > :first-child {
-        margin-left: 0;
-      }
-      > :nth-child(2) {
-        margin-right: 0;
-      }
-      > :last-child {
-        margin: 0.5rem 0;
       }
     }
   }

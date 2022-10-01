@@ -18,14 +18,13 @@ export const Deliveries = ({ projects }: DeliveriesProps) => {
           Empreendimentos <br />
           <span style={{ fontWeight: '700' }}>entregues</span>
         </TitleCSS>
-
+      </div>
+      <div>
         <div className="projects">
-          {projects.map((projectDelivered, i) => (
+          {projects.map((projectDelivered) => (
             <CardDelivered
               key={projectDelivered.id}
               project={projectDelivered}
-              index={i}
-              length={projects.length}
             />
           ))}
         </div>
