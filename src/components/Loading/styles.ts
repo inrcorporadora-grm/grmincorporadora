@@ -12,7 +12,7 @@ export const ContainerCSS = styled.div`
   width: 100%;
   height: 100%;
   z-index: 1000;
-  background: rgba(var(--color-background900), 0.9);
+  background: rgb(var(--color-background900));
 
   > div {
     display: flex;
