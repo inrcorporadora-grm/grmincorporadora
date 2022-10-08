@@ -11,10 +11,12 @@ interface ImageInputsProps<T> {
     ? React.Dispatch<React.SetStateAction<iImage>>
     : undefined;
   value: iImage;
-  label: string;
+  label?: string;
   disabled?: boolean;
+  required?: boolean;
   onPrepareFile: T;
   onRemoveFile?: () => void;
+  onInput?: (ev: React.SyntheticEvent<HTMLInputElement, Event>) => void;
 }
 
 export const ImageInputs = <
@@ -23,7 +25,9 @@ export const ImageInputs = <
   set,
   label,
   value,
+  onInput,
   disabled,
+  required,
   onPrepareFile,
   onRemoveFile,
 }: ImageInputsProps<T>) => {
@@ -33,9 +37,9 @@ export const ImageInputs = <
 
   return (
     <>
-      <div style={{ width: '100%', marginRight: '1rem' }}>
+      <div style={{ width: '100%', marginRight: label ? '1rem' : 0 }}>
         <FilePond
-          required
+          required={required === undefined ? true : required}
           files={files}
           onupdatefiles={setFiles}
           credits={false}
@@ -60,18 +64,21 @@ export const ImageInputs = <
           }}
         />
       </div>
-      <Input
-        id="alt"
-        type="multiline"
-        disabled={disabled}
-        label={label}
-        defaultValue={value.alt || ''}
-        style={{
-          overflowY: 'auto',
-          marginTop: 0,
-          maxHeight: '12.5rem',
-        }}
-      />
+      {label && (
+        <Input
+          id="alt"
+          type="multiline"
+          disabled={disabled}
+          label={label}
+          defaultValue={value.alt || ''}
+          onInput={onInput}
+          style={{
+            overflowY: 'auto',
+            marginTop: 0,
+            maxHeight: '12.5rem',
+          }}
+        />
+      )}
     </>
   );
 };

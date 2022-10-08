@@ -1,5 +1,5 @@
 import { fetcher } from '@services/fetchers';
-import { getValue } from '@utils/getValue';
+import { getRealValue } from '@utils/getRealValue';
 import { messages } from '@utils/messages';
 
 interface Submit {
@@ -32,17 +32,17 @@ export async function submit({
   imagesLinkRef,
 }: Submit) {
   const tel = telRef.current!.value;
-  const cep = getValue(cepRef.current?.value);
+  const cep = getRealValue(cepRef.current?.value);
   const name = nameRef.current!.value;
   const city = cityRef.current!.value;
   const state = stateRef.current!.value;
   const phone = phoneRef.current!.value;
   const email = emailRef.current!.value;
-  const company = getValue(companyRef.current?.value);
+  const company = getRealValue(companyRef.current?.value);
   const address = addressRef.current!.value;
   const proposal = proposalRef.current!.value;
   const district = districtRef.current!.value;
-  const imagesLink = getValue(imagesLinkRef.current?.value);
+  const imagesLink = getRealValue(imagesLinkRef.current?.value);
 
   const dataSheet = [
     `<h1><b>FICHA TÉCNICA - PROPOSTA DE TERRENO - por ${name} (${email})</b></h1><br/><br/>`,

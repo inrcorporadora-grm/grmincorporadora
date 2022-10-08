@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const ContainerCSS = styled.section`
+  position: relative;
   background-color: rgb(var(--color-background300));
   margin-top: var(--section-margin);
 

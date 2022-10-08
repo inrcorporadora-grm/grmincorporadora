@@ -21,11 +21,16 @@ export const AnotherEnterprises = ({ projects }: AnotherEnterprisesProps) => {
     setSeparatesProjects(
       projects
         .filter((_, i) => i <= 13)
+        .sort((last, curr) => {
+          const lastUpper = last.name.name.toLocaleUpperCase();
+          const currUpper = curr.name.name.toLocaleUpperCase();
+          return lastUpper === currUpper ? 0 : lastUpper > currUpper ? 1 : -1;
+        })
         .reduce((accumulator: iProject[][], item, i) => {
           const group = Math.floor(i / 7);
           accumulator[group] = [...(accumulator[group] || []), item];
           setSeparatesProjectsIds((prev) => {
-            if (prev[group]) prev.push(generateId());
+            if (!prev[group]) prev.push(generateId());
             return prev;
           });
           return accumulator;

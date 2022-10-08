@@ -1,6 +1,6 @@
 import type { iImage } from 'types/iImage';
 import type { iTableProject } from 'types/iProject';
-import { getValue } from '@utils/getValue';
+import { getRealValue } from '@utils/getRealValue';
 
 interface CreateSubmitForm {
   address: string;
@@ -14,7 +14,10 @@ interface CreateSubmitForm {
   city: string;
   state: string;
   projectStatus: string;
-  contrastImage: iImage;
+  contrastImage: {
+    image: iImage;
+    imageMobile: iImage | null;
+  };
   gallery: iTableProject['gallery'];
   plans: iTableProject['plans'];
   illustrative: iTableProject['illustrative'];
@@ -48,26 +51,26 @@ export function createSubmitForm(
   project: iTableProject | undefined,
   type: 'edit' | 'add',
 ) {
-  const urlVideo = getValue(video);
+  const urlVideo = getRealValue(video);
 
   const projectSubmit = {
-    address: getValue(address),
+    address: getRealValue(address)?.trim(),
     dataSheets,
-    description,
-    dimensions,
+    description: description.trim(),
+    dimensions: dimensions.trim(),
     infos,
     video: urlVideo ? ytParser(urlVideo) : undefined,
     is: 'project',
-    locale: `${city}/${state.substring(0, 2)}`,
+    locale: `${city.trim()}/${state.substring(0, 2)}`,
     name: {
-      localeType: getValue(localeType),
-      name,
+      localeType: getRealValue(localeType)?.trim(),
+      name: name.trim(),
     },
     status: projectStatus,
     image: {
       is: 'image',
-      alt: contrastImage.alt,
-      id: contrastImage.id,
+      alt: contrastImage.image.alt,
+      id: contrastImage.image.id,
     },
     gallery: gallery?.map((img) => ({
       is: 'image',
@@ -88,8 +91,9 @@ export function createSubmitForm(
 
   const imagesSubmit = {
     image: {
-      path: (id: string) => `projects/${id}/${contrastImage.id}`,
-      img: contrastImage.url,
+      path: (id: string) => `projects/${id}/${contrastImage.image.id}`,
+      img: contrastImage.image.url,
+      imgMobile: getRealValue(contrastImage.imageMobile?.url as string),
     },
     gallery: gallery?.map((img) => ({
       path: (id: string) => `projects/${id}/gallery/${img.id}`,

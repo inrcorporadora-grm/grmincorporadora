@@ -24,6 +24,11 @@ export default async function handle(
         await urlToDataUrl(image[0].url).then((dataUrl) => {
           data.slides = { ...data.slides, url: dataUrl };
         });
+        if (image[1]) {
+          await urlToDataUrl(image[1].url).then((dataUrl) => {
+            data.slides = { ...data.slides, urlMobile: dataUrl };
+          });
+        }
       }
 
       return res.status(200).json(data);

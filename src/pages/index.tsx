@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import type { iPage } from 'types/iPage';
 import { fetcherSWR } from '@services/fetchers';
 
@@ -25,8 +26,9 @@ const Home = () => {
             )}
           />
           <Deliveries
+            projectsIds={pageProps?.others.deliveredProjects!}
             projects={projects.projects.filter(
-              (project, i) => project.status === 'delivered' && i <= 6, // only six projects
+              (project) => project.status === 'delivered',
             )}
           />
         </>

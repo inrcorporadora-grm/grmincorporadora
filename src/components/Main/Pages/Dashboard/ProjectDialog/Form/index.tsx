@@ -56,8 +56,14 @@ export const Form = <T extends iTableProject | undefined>({
       alt: '',
       url: '',
       id: generateId(),
+      urlMobile: '',
     },
   );
+  const [imageMobile, setImageMobile] = useState<iImage>({
+    ...image,
+    id: `${image.id}-mobile`,
+    url: image.urlMobile,
+  });
 
   const [infos, setInfos] = useState<iTableProject['infos']>([]);
   const [deletedImagesIds, setDeletedImagesIds] = useState<string[]>([]);
@@ -65,6 +71,7 @@ export const Form = <T extends iTableProject | undefined>({
   const [plans, setPlans] = useState<iTableProject['plans']>([]);
   const [dataSheets, setDataSheets] = useState<iTableProject['dataSheets']>([]);
   const [buttonsDisabled, setButtonsDisabled] = useState(false);
+  const [removeMobile, setRemoveMobile] = useState(false);
   const [illustrative, setIllustrative] = useState<
     iTableProject['illustrative']
   >([]);
@@ -88,7 +95,10 @@ export const Form = <T extends iTableProject | undefined>({
             plans,
             projectStatus,
             state,
-            contrastImage: image,
+            contrastImage: {
+              image,
+              imageMobile,
+            },
           },
           project,
           type,
@@ -102,7 +112,10 @@ export const Form = <T extends iTableProject | undefined>({
                 deletedImagesIds.map(async (imageToDelete) => {
                   // if the image exists in the project remove then
                   if (JSON.stringify(res).includes(imageToDelete)) {
-                    await str.in(`projects/${res.id}/${imageToDelete}`).del();
+                    await str
+                      .in(`projects/${res.id}/${imageToDelete}`)
+                      .del()
+                      .catch(() => true);
                   }
                   return imageToDelete;
                 }),
@@ -118,9 +131,17 @@ export const Form = <T extends iTableProject | undefined>({
                     }),
                   );
                 } else {
-                  await str
-                    .in(value?.path(res.id) as string)
-                    .add(value?.img as string);
+                  const path = value?.path(res.id) as string;
+                  await str.in(path).add(value?.img as string);
+                  if (value?.imgMobile && !removeMobile) {
+                    await str
+                      .in(`${path}-mobile`)
+                      .add(value?.imgMobile as string);
+                  } else
+                    await str
+                      .in(`${path}-mobile`)
+                      .del()
+                      .catch(() => true);
                 }
               }),
             );
@@ -159,6 +180,7 @@ export const Form = <T extends iTableProject | undefined>({
         inputsReference={{
           video: { value: video, set: setVideo },
           image: { value: image, set: setImage },
+          imageMobile: { value: imageMobile, set: setImageMobile },
           address: { value: address, set: setAddress },
           city: { value: city, set: setCity },
           dimensions: { value: dimensions, set: setDimensions },
@@ -168,6 +190,7 @@ export const Form = <T extends iTableProject | undefined>({
           state: { value: state, set: setState },
           description: { value: description, set: setDescription },
         }}
+        removeMobile={setRemoveMobile}
       />
       <ToggleInputsSection
         title="Ficha Técnica"

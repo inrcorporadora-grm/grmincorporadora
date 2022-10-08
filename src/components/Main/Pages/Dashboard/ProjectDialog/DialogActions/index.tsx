@@ -1,4 +1,5 @@
-import { Button, DialogActions as DialogActionsMUI } from '@mui/material';
+import { Button } from '@components/Buttons/Button';
+import { DialogActions as DialogActionsMUI } from '@mui/material';
 
 interface DialogActionsProps {
   type: 'add' | 'edit';
@@ -13,10 +14,21 @@ export const DialogActions = ({
 }: DialogActionsProps) => {
   return (
     <DialogActionsMUI>
-      <Button type="button" onClick={onClickCancel} disabled={disabled}>
+      <Button
+        type="button"
+        onClick={onClickCancel}
+        loading={false}
+        disabled={disabled}
+        variant="text"
+      >
         Cancelar
       </Button>
-      <Button type="submit" disabled={disabled}>
+      <Button
+        type="submit"
+        disabled={disabled}
+        loading={disabled}
+        variant="text"
+      >
         {type === 'add' ? 'Adicionar' : 'Atualizar'}
       </Button>
     </DialogActionsMUI>

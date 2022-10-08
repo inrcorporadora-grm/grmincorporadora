@@ -14,6 +14,11 @@ export async function getProjectImages(project: iProject) {
   await urlToDataUrl(image[0]?.url).then((dataUrl) => {
     newProject.image = { ...project.image, url: dataUrl };
   });
+  if (image[1]) {
+    await urlToDataUrl(image[1]?.url).then((dataUrl) => {
+      newProject.image = { ...project.image, urlMobile: dataUrl };
+    });
+  }
 
   const plans =
     project.plans &&

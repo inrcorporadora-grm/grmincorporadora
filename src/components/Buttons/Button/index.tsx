@@ -6,6 +6,8 @@ import ButtonMUI from '@mui/material/Button';
 
 interface ButtonProps {
   loading?: boolean;
+  disabled?: boolean;
+  variant?: 'text';
   styles?: SxProps<Theme>;
   icon?: React.ReactNode;
   type?: 'submit' | 'button';
@@ -20,6 +22,8 @@ export const Button = ({
   href,
   styles,
   loading,
+  variant,
+  disabled,
   onClick,
   children,
 }: ButtonProps) => {
@@ -29,7 +33,8 @@ export const Button = ({
     <LoadingButton
       size="large"
       loading={loading}
-      variant="contained"
+      disabled={disabled}
+      variant={variant || 'contained'}
       role={href ? 'link' : 'button'}
       endIcon={icon}
       type={type}
@@ -37,15 +42,19 @@ export const Button = ({
         if (href) router.push(href);
         if (onClick) onClick();
       }}
-      sx={{
-        ...styles,
-        width: 'fit-content',
-        borderRadius: '0.6rem',
-        backgroundColor: 'rgb(var(--color-background600))',
-        ':hover': {
-          backgroundColor: 'rgb(var(--color-primary))',
-        },
-      }}
+      sx={
+        variant === 'text'
+          ? { ...styles }
+          : {
+              ...styles,
+              width: 'fit-content',
+              borderRadius: '0.6rem',
+              backgroundColor: 'rgb(var(--color-background600))',
+              ':hover': {
+                backgroundColor: 'rgb(var(--color-primary))',
+              },
+            }
+      }
     >
       {children}
     </LoadingButton>
@@ -54,6 +63,7 @@ export const Button = ({
       size="large"
       variant="contained"
       role={href ? 'link' : 'button'}
+      disabled={disabled}
       endIcon={icon}
       type={type}
       onClick={() => {

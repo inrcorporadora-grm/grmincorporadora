@@ -27,11 +27,17 @@ interface PrincipalInfosSectionProps {
       value: iImage;
       set: React.Dispatch<React.SetStateAction<iImage>>;
     };
+    imageMobile: {
+      value: iImage;
+      set: React.Dispatch<React.SetStateAction<iImage>>;
+    };
   };
+  removeMobile?: (remove: boolean) => void;
 }
 
 export const PrincipalInfosSection = ({
   inputsReference,
+  removeMobile,
 }: PrincipalInfosSectionProps) => {
   return (
     <section>
@@ -141,21 +147,30 @@ export const PrincipalInfosSection = ({
         rows={10}
       />
 
-      <div
-        style={{ display: 'flex' }}
-        onChange={(ev) => {
-          const target = ev.target as unknown as HTMLInputElement;
-          inputsReference.image.set((prev) => {
-            const newImage = prev;
-            newImage[target.id as 'alt'] = target.value;
-            return newImage;
-          });
-        }}
-      >
+      <div style={{ display: 'flex' }}>
         <ImageInputs
           {...inputsReference.image}
           onPrepareFile={undefined}
           label="Descrição da Imagem Destaque"
+          onInput={(ev) => {
+            const target = ev.target as unknown as HTMLInputElement;
+            inputsReference.image.set((prev) => {
+              const newImage = prev;
+              newImage.alt = target.value;
+              return newImage;
+            });
+          }}
+        />
+      </div>
+      <span style={{ opacity: 0.6 }}>Imagem para celular:</span>
+      <div style={{ display: 'flex', marginTop: '1rem' }}>
+        <ImageInputs
+          {...inputsReference.imageMobile}
+          required={false}
+          onPrepareFile={undefined}
+          onRemoveFile={() => {
+            if (removeMobile) removeMobile(true);
+          }}
         />
       </div>
     </section>

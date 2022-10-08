@@ -73,7 +73,7 @@ export const ToggleInputsSection = <T extends TableProjectArrayProps>({
               onChange={(ev) => {
                 const target = ev.target as unknown as HTMLInputElement;
                 const newListItem = listItem;
-                newListItem[target.id] = target.value;
+                newListItem[target.id] = target.value.trim();
               }}
             >
               {inputsShowed({

@@ -7,6 +7,6 @@ export const imageMock: iImage = {
   alt: 'Erro ao carregar a imagem',
   id: generateId(),
   url: ImageMock,
-  is: 'image-mock',
+  is: 'image',
   slideText: '',
 };

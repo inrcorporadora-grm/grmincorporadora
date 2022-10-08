@@ -2,7 +2,7 @@ import type { iProject } from 'types/iProject';
 import type { iImage } from 'types/iImage';
 
 import dynamic from 'next/dynamic';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { generateId } from '@utils/generateId';
 import { messages } from '@utils/messages';
@@ -45,17 +45,28 @@ export const Form = ({
   projects,
 }: EditDialogProps) => {
   const { pathname } = useRouter();
+  let removeImage = false;
   const contrastImage: iImage = {
     url: '',
     alt: '',
     is: 'image',
     id: generateId(),
     slideText: '',
+    urlMobile: '',
   };
   const [slidesToSubmit, setSlidesToSubmit] = useState<iProject[] | iImage[]>(
     slides[0].is === 'project' ? slides : [{ ...contrastImage, ...slides[0] }],
   );
   const [buttonsDisabled, setButtonsDisabled] = useState(false);
+
+  useEffect(() => {
+    setSlidesToSubmit(
+      slides[0].is === 'project'
+        ? slides
+        : [{ ...contrastImage, ...slides[0] }],
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [slides]);
 
   return (
     <FormBox
@@ -79,6 +90,22 @@ export const Form = ({
               await str
                 .in(`pages/${pageVerify}/${pageVerify}`)
                 .add((slidesToSubmit[0] as iImage).url as string);
+
+              if ((slidesToSubmit[0] as iImage).urlMobile && !removeImage) {
+                await str
+                  .in(`pages/${pageVerify}/${pageVerify}-mobile`)
+                  .add((slidesToSubmit[0] as iImage).urlMobile as string);
+              } else {
+                await str
+                  .in(`pages/${pageVerify}/${pageVerify}-mobile`)
+                  .del()
+                  .catch(() => true);
+                setSlidesToSubmit((prev: any) => {
+                  const newImage = prev[0];
+                  newImage.urlMobile = null;
+                  return [newImage];
+                });
+              }
             }
             setSlides(slidesToSubmit);
             alert(`Slide(s) atualizado(s) com sucesso.`);
@@ -94,20 +121,7 @@ export const Form = ({
         <span style={{ opacity: 0.6 }}>
           para usar uma imagem destaque desmarque todos os projetos primeiro:
         </span>
-        <div
-          style={{ display: 'flex', marginTop: '1rem' }}
-          onChange={(ev) => {
-            const target = ev.target as unknown as HTMLInputElement;
-
-            if (slidesToSubmit[0]?.is === 'image') {
-              setSlidesToSubmit((prev: any) => {
-                const newImage = prev[0];
-                newImage[target.id as string] = target.value;
-                return [newImage];
-              });
-            }
-          }}
-        >
+        <div style={{ display: 'flex', marginTop: '1rem' }}>
           <ImageInputs
             set={undefined}
             value={
@@ -123,6 +137,39 @@ export const Form = ({
                 newImage.url = item.getFileEncodeDataURL();
                 return [newImage];
               });
+            }}
+            onInput={(ev) => {
+              const target = ev.target as unknown as HTMLInputElement;
+              setSlidesToSubmit((prev: any) => {
+                const newImage = prev[0];
+                newImage.alt = target.value;
+                return [newImage];
+              });
+            }}
+          />
+        </div>
+        <span style={{ opacity: 0.6 }}>Imagem para celular:</span>
+        <div style={{ display: 'flex', marginTop: '1rem' }}>
+          <ImageInputs
+            set={undefined}
+            value={
+              slidesToSubmit[0].is === 'image'
+                ? slidesToSubmit[0].urlMobile
+                  ? { ...slidesToSubmit[0], url: slidesToSubmit[0].urlMobile }
+                  : contrastImage
+                : contrastImage
+            }
+            disabled={slidesToSubmit[0]?.is === 'project'}
+            required={false}
+            onPrepareFile={(item) => {
+              setSlidesToSubmit((prev: any) => {
+                const newImage = prev[0];
+                newImage.urlMobile = item.getFileEncodeDataURL();
+                return [newImage];
+              });
+            }}
+            onRemoveFile={() => {
+              removeImage = true;
             }}
           />
         </div>
