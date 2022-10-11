@@ -78,7 +78,7 @@ export const Cards = ({ projects }: CardsProps) => {
       </div>
       <div className="see-more">
         {amountCards < pageProjects.length && (
-          <ButtonLink active onClick={() => setAmountCards((prev) => prev + 3)}>
+          <ButtonLink active onClick={() => setAmountCards((prev) => prev + 4)}>
             Ver Mais
           </ButtonLink>
         )}

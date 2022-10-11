@@ -17,7 +17,7 @@ export const EditDialog = ({
   setOpen,
   projects,
   projectsIds,
-  setProjectsIds
+  setProjectsIds,
 }: EditDialogProps) => {
   useEffect(() => {
     if (open) document.querySelector('html')!.style.overflowY = 'hidden';

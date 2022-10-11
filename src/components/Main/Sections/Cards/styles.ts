@@ -4,12 +4,14 @@ export const ContainerCSS = styled.section`
   margin: 1rem 0 4rem;
 
   > .cards__container {
-    display: flex;
-    flex-wrap: wrap;
-    width: 100%;
+    display: grid;
+    width: calc(100% - 2rem);
+    margin: 0 1rem;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 2rem;
 
     > .card {
-      margin: 1rem;
+      width: 100%;
       height: 18rem;
 
       > .card__content {
@@ -19,6 +21,7 @@ export const ContainerCSS = styled.section`
     }
     @media (max-width: ${({ theme }) => theme.mediaQueries.maxMobile}) {
       padding: 0 1rem;
+      grid-template-columns: 1fr;
       > .card {
         > .card__content {
           padding: 0 1rem;

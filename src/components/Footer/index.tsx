@@ -6,7 +6,7 @@ export const Footer = () => {
     <ContainerCSS>
       <TopFooter />
       <section className="bottom">
-        <p>&copy; GRM INCORPORADORA, 2020. TODOS OS DIREITOS RESERVADOS.</p>
+        <p>&copy; GRM INCORPORADORA, 2023. TODOS OS DIREITOS RESERVADOS.</p>
       </section>
     </ContainerCSS>
   );

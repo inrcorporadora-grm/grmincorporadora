@@ -1,10 +1,10 @@
 import type { iImage } from 'types/iImage';
 import { generateId } from './generateId';
 
-import ImageMock from '../assets/img/image-mock.jpg';
+import ImageMock from '../assets/img/image-mock.gif';
 
 export const imageMock: iImage = {
-  alt: 'Erro ao carregar a imagem',
+  alt: 'Carregando...',
   id: generateId(),
   url: ImageMock,
   is: 'image',
