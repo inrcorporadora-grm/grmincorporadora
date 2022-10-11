@@ -4,10 +4,10 @@ import { Button } from '@components/Buttons/Button';
 
 import { TitleCSS } from '@stylesComponents/Texts';
 
-import { useLayoutContext } from '@contexts/Layout/useLayoutContext';
+// import { useLayoutContext } from '@contexts/Layout/useLayoutContext';
 import { ContainerCSS } from './styles';
 import { CardDelivered } from './Card';
-import { Edit } from './Edit';
+// import { Edit } from './Edit';
 
 export interface DeliveriesProps {
   projects: iProject[];
@@ -18,8 +18,8 @@ export const Deliveries = ({
   projects,
   projectsIds: projectsIdsProps,
 }: DeliveriesProps) => {
-  const [projectsIds, setProjectsIds] = useState(projectsIdsProps);
-  const { isUserAdmin } = useLayoutContext();
+  const [projectsIds /* , setProjectsIds */] = useState(projectsIdsProps);
+  // const { isUserAdmin } = useLayoutContext();
 
   return (
     <ContainerCSS>
@@ -48,13 +48,13 @@ export const Deliveries = ({
           Veja mais
         </Button>
       </div>
-      {isUserAdmin && (
+      {/* {isUserAdmin && (
         <Edit
           projectsIds={projectsIds}
           projects={projects}
           setProjectsIds={setProjectsIds}
         />
-      )}
+      )} */}
     </ContainerCSS>
   );
 };

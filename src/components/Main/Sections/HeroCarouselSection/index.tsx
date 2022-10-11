@@ -8,6 +8,7 @@ import { useLayoutContext } from '@contexts/Layout/useLayoutContext';
 import { BREAKPOINTS } from '@globalStyles/themes/shared';
 import { imageMock } from '@utils/imageMock';
 import { getRealValue } from '@utils/getRealValue';
+import { Button } from '@components/Buttons/Button';
 
 import {
   HeroCarousel,
@@ -113,9 +114,17 @@ export const HeroCarouselSection = ({
                         - {slide.dimensions}
                       </span>
                     </ParagraphCSS>
-                    <span style={{ textTransform: 'uppercase' }}>
+                    <span
+                      style={{
+                        textTransform: 'uppercase',
+                        marginBottom: '2rem',
+                      }}
+                    >
                       {slide.address && `${slide.address} - `} {slide.locale}
                     </span>
+                    <Button href={`/enterprises/${slide.id}`}>
+                      Conheça Agora
+                    </Button>
                   </CarouselContent>
                 ) : (
                   <CarouselContent className="mx-w">
