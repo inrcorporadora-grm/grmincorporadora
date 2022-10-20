@@ -122,7 +122,14 @@ export const HeroCarouselSection = ({
                     >
                       {slide.address && `${slide.address} - `} {slide.locale}
                     </span>
-                    <Button href={`/enterprises/${slide.id}`}>
+                    <Button
+                      href={
+                        slide.website
+                          ? slide.website
+                          : `/enterprises/${slide.id}`
+                      }
+                      targetBlank={!!slide.website}
+                    >
                       Conheça Agora
                     </Button>
                   </CarouselContent>

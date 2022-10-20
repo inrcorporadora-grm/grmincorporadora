@@ -13,6 +13,7 @@ interface ButtonProps {
   type?: 'submit' | 'button';
   children: React.ReactNode;
   href?: string;
+  targetBlank?: boolean;
   onClick?: () => void;
 }
 
@@ -25,6 +26,7 @@ export const Button = ({
   variant,
   disabled,
   onClick,
+  targetBlank,
   children,
 }: ButtonProps) => {
   const router = useRouter();
@@ -39,7 +41,8 @@ export const Button = ({
       endIcon={icon}
       type={type}
       onClick={() => {
-        if (href) router.push(href);
+        if (href && !targetBlank) router.push(href);
+        if (href && targetBlank) window.open(href, '_blank');
         if (onClick) onClick();
       }}
       sx={
@@ -67,7 +70,8 @@ export const Button = ({
       endIcon={icon}
       type={type}
       onClick={() => {
-        if (href) router.push(href);
+        if (href && !targetBlank) router.push(href);
+        if (href && targetBlank) window.open(href, '_blank');
         if (onClick) onClick();
       }}
       sx={{

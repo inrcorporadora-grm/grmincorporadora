@@ -47,6 +47,7 @@ export const Form = <T extends iTableProject | undefined>({
   const [state, setState] = useState(project?.locale.split('/')[1] || '');
   const [name, setName] = useState(project?.name.name || '');
   const [video, setVideo] = useState(project?.video || '');
+  const [website, setWebsite] = useState(project?.website || '');
   const [projectStatus, setProjectStatus] = useState<string>(
     project?.status || 'new',
   );
@@ -95,6 +96,7 @@ export const Form = <T extends iTableProject | undefined>({
             plans,
             projectStatus,
             state,
+            website,
             contrastImage: {
               image,
               imageMobile,
@@ -186,6 +188,7 @@ export const Form = <T extends iTableProject | undefined>({
           dimensions: { value: dimensions, set: setDimensions },
           localeType: { value: localeType, set: setLocaleType },
           name: { value: name, set: setName },
+          website: { value: website, set: setWebsite },
           projectStatus: { value: projectStatus, set: setProjectStatus },
           state: { value: state, set: setState },
           description: { value: description, set: setDescription },

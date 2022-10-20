@@ -69,7 +69,14 @@ export const Cards = ({ projects }: CardsProps) => {
                   {getLabel()}
                 </ParagraphCSS>
 
-                <Button href={`/enterprises/${project.id}`}>
+                <Button
+                  href={
+                    project.website
+                      ? project.website
+                      : `/enterprises/${project.id}`
+                  }
+                  targetBlank={!!project.website}
+                >
                   Conheça Agora
                 </Button>
               </Card>

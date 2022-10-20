@@ -14,6 +14,7 @@ type References =
   | 'name'
   | 'city'
   | 'video'
+  | 'website'
   | 'description';
 
 interface PrincipalInfosSectionProps {
@@ -124,6 +125,16 @@ export const PrincipalInfosSection = ({
           placeholder="bairro, rua, número"
         />
       </div>
+      <Input
+        label="Website"
+        type="url"
+        required={false}
+        defaultValue={inputsReference.website.value || ''}
+        placeholder="https://projeto.com/"
+        onInput={(ev) =>
+          inputsReference.website.set((ev.target as HTMLInputElement).value)
+        }
+      />
       <Input
         label="Vídeo"
         type="url"

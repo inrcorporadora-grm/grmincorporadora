@@ -13,6 +13,7 @@ interface CreateSubmitForm {
   name: string;
   city: string;
   state: string;
+  website: string;
   projectStatus: string;
   contrastImage: {
     image: iImage;
@@ -45,6 +46,7 @@ export function createSubmitForm(
     projectStatus,
     gallery,
     plans,
+    website,
     contrastImage,
     illustrative,
   }: CreateSubmitForm,
@@ -59,6 +61,7 @@ export function createSubmitForm(
     description: description.trim(),
     dimensions: dimensions.trim(),
     infos,
+    website: getRealValue(website)?.trim(),
     video: urlVideo ? ytParser(urlVideo) : undefined,
     is: 'project',
     locale: `${city.trim()}/${state.substring(0, 2)}`,

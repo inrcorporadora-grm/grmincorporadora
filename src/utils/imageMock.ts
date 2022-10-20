@@ -1,7 +1,7 @@
 import type { iImage } from 'types/iImage';
 import { generateId } from './generateId';
 
-import ImageMock from '../assets/img/image-mock.gif';
+import ImageMock from '../assets/img/image-mock.jpg';
 
 export const imageMock: iImage = {
   alt: 'Carregando...',
